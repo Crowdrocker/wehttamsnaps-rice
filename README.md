@@ -74,7 +74,7 @@ This is a complete, production-ready Hyprland setup optimized for gaming and str
 ### Quick Install
 ```bash
 # Clone or download the setup script
-curl -L -o wehttam-setup.sh [YOUR_SCRIPT_URL]
+curl -L -o wehttam-setup.sh (https://github.com/Crowdrocker/wehttamsnaps-rice.git)
 chmod +x wehttam-setup.sh
 ./wehttam-setup.sh
 ```
