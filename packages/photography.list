@@ -1,0 +1,82 @@
+# ================================
+# PHOTOGRAPHY PACKAGES (packages/photography.list)
+# Photo editing and RAW processing
+# ================================
+
+# RAW Processors
+darktable
+rawtherapee
+
+# Image Editors
+gimp
+krita
+inkscape
+
+# Photo Management
+digikam
+gwenview
+
+# Image Viewers
+nomacs
+loupe
+qview
+
+# Color Management
+colord
+
+# Batch Processing
+imagemagick
+
+# Metadata Tools
+exiftool
+
+# 3D (for advanced work)
+blender
+
+# Video Editing (for photography videos)
+kdenlive
+
+# ================================
+# GAMING PACKAGES (packages/gaming.list)
+# Gaming and performance tools
+# ================================
+
+# Game Launchers
+steam
+lutris
+heroic-games-launcher-bin  # AUR
+
+# Performance
+gamemode
+gamescope
+mangohud
+lib32-mangohud
+
+# AMD GPU Support
+mesa
+lib32-mesa
+vulkan-radeon
+lib32-vulkan-radeon
+vulkan-mesa-layers
+amdvlk
+lib32-amdvlk
+rocm-opencl-runtime
+corectrl
+
+# Proton/Wine
+wine-staging
+winetricks
+protonup-qt
+proton-ge-custom-bin  # AUR
+
+# Controller Support
+antimicrox
+
+# Streaming/Recording
+obs-studio
+obs-vaapi
+gpu-screen-recorder  # AUR
+
+# Communication
+discord
+legcord-bin  # AUR - privacy-focused Discord

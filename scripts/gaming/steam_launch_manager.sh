@@ -1,0 +1,465 @@
+#!/bin/bash
+# ===================================================================
+# WehttamSnaps Steam Launch Options Manager
+# https://github.com/Crowdrocker/wehttamsnaps-dotfiles
+#
+# Manage Steam game launch options with presets
+# ===================================================================
+
+set -e
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+print_header() {
+    echo -e "${CYAN}"
+    echo "╔═══════════════════════════════════════════════╗"
+    echo "║   Steam Launch Options Manager               ║"
+    echo "╚═══════════════════════════════════════════════╝"
+    echo -e "${NC}"
+}
+
+print_step() {
+    echo -e "${GREEN}▶${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}✓${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}✗${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}⚠${NC} $1"
+}
+
+# ===================================================================
+# GAME PRESETS
+# ===================================================================
+
+get_cyberpunk_options() {
+    local preset=$1
+    
+    case $preset in
+        default)
+            echo "RADV_PERFTEST=aco DXVK_ASYNC=1 PROTON_NO_ESYNC=1 gamemoderun %command%"
+            ;;
+        performance)
+            echo "RADV_PERFTEST=aco,sam,nggc DXVK_ASYNC=1 PROTON_NO_ESYNC=1 gamemoderun mangohud %command%"
+            ;;
+        stability)
+            echo "PROTON_USE_WINED3D=0 PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 DXVK_ASYNC=1 %command%"
+            ;;
+        debug)
+            echo "PROTON_LOG=1 DXVK_LOG_LEVEL=info RADV_DEBUG=info gamemoderun %command%"
+            ;;
+    esac
+}
+
+get_fallout4_options() {
+    local preset=$1
+    
+    case $preset in
+        default)
+            echo "RADV_PERFTEST=aco DXVK_ASYNC=1 PROTON_NO_ESYNC=1 gamemoderun %command%"
+            ;;
+        f4se)
+            echo "RADV_PERFTEST=aco DXVK_ASYNC=1 PROTON_NO_ESYNC=1 gamemoderun bash -c 'cd \"\$STEAM_COMPAT_INSTALL_PATH\" && exec \"\$STEAM_COMPAT_TOOL_PATHS\"/proton run ./f4se_loader.exe'"
+            ;;
+        performance)
+            echo "RADV_PERFTEST=aco,sam,nggc DXVK_ASYNC=1 PROTON_NO_ESYNC=1 gamemoderun mangohud %command%"
+            ;;
+        stability)
+            echo "PROTON_USE_WINED3D=0 PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 %command%"
+            ;;
+    esac
+}
+
+get_starfield_options() {
+    local preset=$1
+    
+    case $preset in
+        default)
+            echo "RADV_PERFTEST=aco DXVK_ASYNC=1 PROTON_NO_ESYNC=1 PROTON_ENABLE_NVAPI=1 gamemoderun %command%"
+            ;;
+        sfse)
+            echo "RADV_PERFTEST=aco DXVK_ASYNC=1 PROTON_NO_ESYNC=1 gamemoderun bash -c 'cd \"\$STEAM_COMPAT_INSTALL_PATH\" && exec \"\$STEAM_COMPAT_TOOL_PATHS\"/proton run ./sfse_loader.exe'"
+            ;;
+        performance)
+            echo "RADV_PERFTEST=aco,sam,nggc DXVK_ASYNC=1 PROTON_NO_ESYNC=1 PROTON_ENABLE_NVAPI=1 gamemoderun mangohud %command%"
+            ;;
+        fsr)
+            echo "WINE_FULLSCREEN_FSR=1 WINE_FULLSCREEN_FSR_STRENGTH=2 RADV_PERFTEST=aco DXVK_ASYNC=1 gamemoderun %command%"
+            ;;
+    esac
+}
+
+# ===================================================================
+# SHOW OPTIONS
+# ===================================================================
+
+show_game_options() {
+    local game=$1
+    
+    print_header
+    echo "Launch options for: $game"
+    echo ""
+    
+    case $game in
+        cyberpunk|cp2077)
+            echo -e "${GREEN}Cyberpunk 2077${NC}"
+            echo ""
+            echo "Presets:"
+            echo "  default      - Standard optimizations"
+            echo "  performance  - Maximum FPS (with MangoHud)"
+            echo "  stability    - Focus on crash prevention"
+            echo "  debug        - Enable logging for troubleshooting"
+            echo ""
+            echo "Examples:"
+            echo "───────────────────────────────────────────────────"
+            echo "Default:"
+            echo "  $(get_cyberpunk_options default)"
+            echo ""
+            echo "Performance:"
+            echo "  $(get_cyberpunk_options performance)"
+            echo ""
+            ;;
+        
+        fallout4|fo4)
+            echo -e "${GREEN}Fallout 4${NC}"
+            echo ""
+            echo "Presets:"
+            echo "  default      - Standard optimizations"
+            echo "  f4se         - Launch with F4SE (REQUIRED for mods!)"
+            echo "  performance  - Maximum FPS (with MangoHud)"
+            echo "  stability    - Focus on crash prevention"
+            echo ""
+            echo "Examples:"
+            echo "───────────────────────────────────────────────────"
+            echo "Default:"
+            echo "  $(get_fallout4_options default)"
+            echo ""
+            echo "F4SE (for modding):"
+            echo "  $(get_fallout4_options f4se)"
+            echo ""
+            ;;
+        
+        starfield|sf)
+            echo -e "${GREEN}Starfield${NC}"
+            echo ""
+            echo "Presets:"
+            echo "  default      - Standard optimizations"
+            echo "  sfse         - Launch with SFSE (for mods)"
+            echo "  performance  - Maximum FPS (with MangoHud)"
+            echo "  fsr          - AMD FSR upscaling"
+            echo ""
+            echo "Examples:"
+            echo "───────────────────────────────────────────────────"
+            echo "Default:"
+            echo "  $(get_starfield_options default)"
+            echo ""
+            echo "SFSE (for modding):"
+            echo "  $(get_starfield_options sfse)"
+            echo ""
+            ;;
+        
+        *)
+            print_error "Unknown game: $game"
+            return 1
+            ;;
+    esac
+}
+
+# ===================================================================
+# GET OPTIONS
+# ===================================================================
+
+get_options() {
+    local game=$1
+    local preset=$2
+    
+    case $game in
+        cyberpunk|cp2077|cp)
+            get_cyberpunk_options "$preset"
+            ;;
+        fallout4|fo4|fallout)
+            get_fallout4_options "$preset"
+            ;;
+        starfield|sf)
+            get_starfield_options "$preset"
+            ;;
+        *)
+            echo ""
+            return 1
+            ;;
+    esac
+}
+
+# ===================================================================
+# COPY TO CLIPBOARD
+# ===================================================================
+
+copy_options() {
+    local game=$1
+    local preset=$2
+    
+    print_header
+    
+    local options=$(get_options "$game" "$preset")
+    
+    if [ -z "$options" ]; then
+        print_error "Invalid game or preset"
+        return 1
+    fi
+    
+    # Copy to clipboard
+    if command -v wl-copy &>/dev/null; then
+        echo -n "$options" | wl-copy
+        print_success "Launch options copied to clipboard (Wayland)"
+    elif command -v xclip &>/dev/null; then
+        echo -n "$options" | xclip -selection clipboard
+        print_success "Launch options copied to clipboard (X11)"
+    else
+        print_warning "No clipboard tool found"
+        echo "Install wl-clipboard or xclip"
+    fi
+    
+    echo ""
+    echo "Launch options:"
+    echo "───────────────────────────────────────────────────"
+    echo "$options"
+    echo ""
+    echo "How to use:"
+    echo "1. Open Steam"
+    echo "2. Right-click game → Properties"
+    echo "3. Paste into 'Launch Options' field"
+}
+
+# ===================================================================
+# SAVE PRESET
+# ===================================================================
+
+save_preset() {
+    local name=$1
+    local game=$2
+    local options=$3
+    
+    local presets_dir="$HOME/.config/wehttamsnaps/steam-presets"
+    mkdir -p "$presets_dir"
+    
+    local preset_file="$presets_dir/$name.txt"
+    
+    cat > "$preset_file" << EOF
+# Steam Launch Options Preset
+# Name: $name
+# Game: $game
+# Created: $(date)
+
+$options
+EOF
+    
+    print_success "Preset saved: $preset_file"
+}
+
+# ===================================================================
+# LIST SAVED PRESETS
+# ===================================================================
+
+list_saved_presets() {
+    print_header
+    echo "Saved presets:"
+    echo ""
+    
+    local presets_dir="$HOME/.config/wehttamsnaps/steam-presets"
+    
+    if [ ! -d "$presets_dir" ]; then
+        print_warning "No saved presets found"
+        return
+    fi
+    
+    local count=1
+    for preset in "$presets_dir"/*.txt; do
+        if [ -f "$preset" ]; then
+            local name=$(basename "$preset" .txt)
+            local game=$(grep "^# Game:" "$preset" | cut -d: -f2 | xargs)
+            
+            echo -e "${GREEN}$count.${NC} $name"
+            echo "   Game: $game"
+            echo "   File: $preset"
+            echo ""
+            ((count++))
+        fi
+    done
+}
+
+# ===================================================================
+# EXPLAIN OPTIONS
+# ===================================================================
+
+explain_options() {
+    print_header
+    echo "Launch Options Explained:"
+    echo ""
+    
+    echo -e "${GREEN}AMD GPU Optimizations:${NC}"
+    echo "  RADV_PERFTEST=aco        → Use ACO shader compiler (faster)"
+    echo "  RADV_PERFTEST=sam        → Smart Access Memory"
+    echo "  RADV_PERFTEST=nggc       → NGG culling (better performance)"
+    echo ""
+    
+    echo -e "${GREEN}DXVK (DirectX to Vulkan):${NC}"
+    echo "  DXVK_ASYNC=1             → Async shader compilation (less stutter)"
+    echo "  DXVK_STATE_CACHE=1       → Enable state cache"
+    echo ""
+    
+    echo -e "${GREEN}Proton Tweaks:${NC}"
+    echo "  PROTON_NO_ESYNC=1        → Disable esync (fixes some crashes)"
+    echo "  PROTON_NO_FSYNC=1        → Disable fsync"
+    echo "  PROTON_USE_WINED3D=1     → Use WineD3D instead of DXVK"
+    echo "  PROTON_ENABLE_NVAPI=1    → Enable NVAPI (for some games)"
+    echo ""
+    
+    echo -e "${GREEN}Performance Tools:${NC}"
+    echo "  gamemoderun              → Enable Gamemode (performance boost)"
+    echo "  mangohud                 → FPS counter and stats overlay"
+    echo ""
+    
+    echo -e "${GREEN}FSR (AMD FidelityFX Super Resolution):${NC}"
+    echo "  WINE_FULLSCREEN_FSR=1    → Enable FSR upscaling"
+    echo "  WINE_FULLSCREEN_FSR_STRENGTH=0-5  → Sharpness (0=sharp, 5=soft)"
+    echo ""
+}
+
+# ===================================================================
+# BUILD CUSTOM
+# ===================================================================
+
+build_custom() {
+    print_header
+    echo "Interactive Launch Options Builder"
+    echo ""
+    
+    # AMD optimizations
+    echo "AMD GPU Optimizations:"
+    read -p "  Enable ACO compiler? (y/n): " aco
+    read -p "  Enable SAM? (y/n): " sam
+    read -p "  Enable NGG culling? (y/n): " nggc
+    echo ""
+    
+    # DXVK
+    echo "DXVK Settings:"
+    read -p "  Enable async shaders? (y/n): " async
+    echo ""
+    
+    # Proton
+    echo "Proton Settings:"
+    read -p "  Disable ESYNC? (y/n): " esync
+    read -p "  Disable FSYNC? (y/n): " fsync
+    echo ""
+    
+    # Tools
+    echo "Performance Tools:"
+    read -p "  Enable Gamemode? (y/n): " gamemode
+    read -p "  Enable MangoHud? (y/n): " mangohud
+    echo ""
+    
+    # Build options string
+    local options=""
+    
+    if [[ $aco =~ ^[Yy]$ ]]; then
+        options="${options}RADV_PERFTEST=aco"
+        [[ $sam =~ ^[Yy]$ ]] && options="${options},sam"
+        [[ $nggc =~ ^[Yy]$ ]] && options="${options},nggc"
+        options="${options} "
+    fi
+    
+    [[ $async =~ ^[Yy]$ ]] && options="${options}DXVK_ASYNC=1 "
+    [[ $esync =~ ^[Yy]$ ]] && options="${options}PROTON_NO_ESYNC=1 "
+    [[ $fsync =~ ^[Yy]$ ]] && options="${options}PROTON_NO_FSYNC=1 "
+    [[ $gamemode =~ ^[Yy]$ ]] && options="${options}gamemoderun "
+    [[ $mangohud =~ ^[Yy]$ ]] && options="${options}mangohud "
+    
+    options="${options}%command%"
+    
+    echo ""
+    print_success "Custom launch options:"
+    echo "───────────────────────────────────────────────────"
+    echo "$options"
+    echo ""
+    
+    # Copy to clipboard
+    if command -v wl-copy &>/dev/null; then
+        echo -n "$options" | wl-copy
+        print_success "Copied to clipboard"
+    fi
+}
+
+# ===================================================================
+# HELP
+# ===================================================================
+
+show_help() {
+    print_header
+    echo "Usage: $0 <command> [options]"
+    echo ""
+    echo "Commands:"
+    echo "  show <game>              Show presets for game"
+    echo "  copy <game> <preset>     Copy options to clipboard"
+    echo "  save <n> <g> <options>   Save custom preset"
+    echo "  list                        List saved presets"
+    echo "  explain                     Explain options"
+    echo "  build                       Build custom options"
+    echo ""
+    echo "Games:"
+    echo "  cyberpunk, fallout4, starfield"
+    echo ""
+    echo "Examples:"
+    echo "  $0 show cyberpunk"
+    echo "  $0 copy fallout4 f4se"
+    echo "  $0 explain"
+    echo "  $0 build"
+}
+
+# ===================================================================
+# MAIN
+# ===================================================================
+
+main() {
+    case "${1:-}" in
+        show)
+            show_game_options "$2"
+            ;;
+        copy)
+            copy_options "$2" "$3"
+            ;;
+        save)
+            save_preset "$2" "$3" "$4"
+            ;;
+        list)
+            list_saved_presets
+            ;;
+        explain)
+            explain_options
+            ;;
+        build)
+            build_custom
+            ;;
+        --help|-h|"")
+            show_help
+            ;;
+        *)
+            print_error "Unknown command: $1"
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

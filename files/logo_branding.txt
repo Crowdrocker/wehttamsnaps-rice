@@ -1,0 +1,91 @@
+═══════════════════════════════════════════════════════════════════
+╦ ╦┌─┐┬ ┬┌┬┐┌┬┐┌─┐┌┬┐╔═╗┌┐┌┌─┐┌─┐┌─┐
+║║║├┤ ├─┤ │  │ ├─┤│││╚═╗│││├─┤├─┘└─┐
+╚╩╝└─┘┴ ┴ ┴  ┴ ┴ ┴┴ ┴╚═╝┘└┘┴ ┴┴  └─┘
+═══════════════════════════════════════════════════════════════════
+
+          📷  Photography  •  🎮  Gaming  •  💻  Linux
+
+═══════════════════════════════════════════════════════════════════
+                    WehttamSnaps Dotfiles
+         Professional Niri + Noctalia Setup for Arch Linux
+═══════════════════════════════════════════════════════════════════
+
+🔗 GitHub:  https://github.com/Crowdrocker/wehttamsnaps-dotfiles
+📺 Twitch:  https://twitch.tv/wehttamsnaps
+🎬 YouTube: https://youtube.com/@wehttamsnaps
+
+═══════════════════════════════════════════════════════════════════
+
+HARDWARE:
+  • Dell XPS 8700
+  • Intel Core i7-4790 @ 4.0GHz (8 threads)
+  • AMD Radeon RX 580 (8GB VRAM)
+  • 16GB DDR3 RAM
+  • 1920x1080 @ 60Hz
+
+SOFTWARE:
+  • Compositor: Niri (Wayland, scrollable tiling)
+  • Shell:      Noctalia (Quickshell-based)
+  • Terminal:   Ghostty (GPU-accelerated)
+  • Browser:    Brave
+  • Theme:      Custom WehttamSnaps (Catppuccin Mocha inspired)
+
+WORKFLOWS:
+  • Photography: Darktable, RawTherapee, GIMP, Krita
+  • Gaming:      Steam, Lutris, Gamemode, AMD-optimized
+  • Streaming:   OBS Studio, PipeWire audio routing
+
+═══════════════════════════════════════════════════════════════════
+
+QUICK START:
+  Mod+Space     App Launcher
+  Mod+Return    Terminal (Ghostty)
+  Mod+H         KeyHints (show all binds)
+  Mod+S         Control Center
+  Mod+P         Photography Workspace
+  Mod+G         Toggle Gamemode
+  Mod+W         Wallpaper Selector
+
+═══════════════════════════════════════════════════════════════════
+
+DOCUMENTATION:
+  • Installation:  docs/INSTALL.md
+  • Quick Start:   docs/QUICKSTART.md
+  • Keybinds:      docs/KEYBINDS.md
+  • Gaming Setup:  docs/GAMING.md
+  • Photo Workflow: docs/PHOTOGRAPHY.md
+  • Troubleshoot:  docs/TROUBLESHOOTING.md
+
+═══════════════════════════════════════════════════════════════════
+
+FEATURES:
+  ✓ Modular configuration (split into conf.d/ files)
+  ✓ Custom Quickshell widgets for work and gaming
+  ✓ Webapp launchers (YouTube, Twitch, Spotify, Discord)
+  ✓ Audio routing for streaming (PipeWire-based)
+  ✓ Photography workspace with color management
+  ✓ Gaming optimizations (Gamemode, AMD RX 580 tweaks)
+  ✓ Plymouth boot theme with animated logo
+  ✓ Automated widget/webapp creator scripts
+  ✓ Clean package lists (categorized by use case)
+
+═══════════════════════════════════════════════════════════════════
+
+CREDITS & INSPIRATION:
+  • JaKooLit  - Theming and visual design
+  • Omarchy   - Workflow and functionality
+  • Noctalia  - Modern Quickshell implementation
+
+═══════════════════════════════════════════════════════════════════
+
+LICENSE: MIT License
+Author:  Matthew (WehttamSnaps)
+GitHub:  https://github.com/Crowdrocker
+
+═══════════════════════════════════════════════════════════════════
+
+            Built with ❤️  for Photography & Gaming
+              "Snapping Shots, Fragging Foes" 📷🎮
+
+═══════════════════════════════════════════════════════════════════

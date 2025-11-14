@@ -1,348 +1,297 @@
-# 🎮 WehttamSnaps Hyprland Gaming Setup
+# WehttamSnaps - Professional Niri Dotfiles
 
-**A complete Arch Linux + Hyprland gaming and streaming environment with violet-to-cyan TokyoNight aesthetics**
+> A modular, photography-focused Arch Linux setup with Niri compositor and Noctalia shell
 
-![Hyprland](https://img.shields.io/badge/WM-Hyprland-7aa2f7?style=for-the-badge&logo=wayland&logoColor=white)
-![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=for-the-badge&logo=arch-linux&logoColor=white)
-![Gaming](https://img.shields.io/badge/Gaming-Ready-bb9af7?style=for-the-badge&logo=steam&logoColor=white)
-![Streaming](https://img.shields.io/badge/Streaming-Optimized-f7768e?style=for-the-badge&logo=twitch&logoColor=white)
-
-## 📋 Overview
-
-This is a complete, production-ready Hyprland setup optimized for gaming and streaming on Arch Linux. Originally configured for a budget gaming PC (i5-4430 + RX 580 + 16GB RAM) but scales beautifully to higher-end hardware.
-
-### ✨ Key Features
-
-- **🎨 Beautiful TokyoNight Theme**: Violet-to-cyan gradient aesthetic throughout
-- **🎮 Gaming Optimized**: GameMode, MangoHud, ZRAM, GPU optimizations
-- **📺 Stream Ready**: OBS integration, brand asset organization, overlay support  
-- **⚡ Performance Focused**: SSD-optimized configs, tearing allowance, low-latency settings
-- **🎯 User-Friendly**: Welcome app, game launcher, intuitive keybindings
-- **🔧 Fully Automated**: One-script installation with minimal user intervention
-
-## 🖥️ System Requirements
-
-### Minimum (Tested Configuration)
-- **CPU**: Intel i5-4430 or equivalent
-- **GPU**: AMD RX 580 or equivalent (8GB+ VRAM recommended)
-- **RAM**: 16GB (works with 8GB but 16GB+ recommended)
-- **Storage**: 1TB SSD (minimum 500GB)
-- **OS**: Fresh Arch Linux installation
-
-### Recommended
-- **CPU**: Ryzen 5 3600 or newer / Intel i5-8400 or newer
-- **GPU**: AMD RX 6600 XT+ / NVIDIA GTX 1660+ (with proper drivers)
-- **RAM**: 32GB for streaming + gaming
-- **Storage**: NVMe SSD for best performance
-
-## 📦 What's Included
-
-### Core Components
-- **Window Manager**: Hyprland with custom gaming optimizations
-- **Status Bar**: Waybar with gaming-specific modules (GameMode indicator, GPU stats)
-- **Launcher**: Rofi + custom EWW game launcher
-- **Terminal**: XFCE4 Terminal with TokyoNight theme
-- **Shell**: ZSH with Oh My Zsh + Starship prompt
-- **Login Manager**: SDDM with Sugar Candy theme
-
-### Gaming Stack
-- **Game Stores**: Steam, Lutris, Heroic Games Launcher
-- **Performance**: GameMode, MangoHud, Gamescope
-- **Optimization**: ZRAM swap, GPU performance profiles
-- **Drivers**: Mesa, Vulkan, DXVK for compatibility
-
-### Streaming & Content Creation
-- **Recording**: OBS Studio with optimized settings
-- **Communication**: Discord with gaming integrations
-- **Music**: Spotify for background audio
-- **Assets**: Organized brand directory structure
-
-### Additional Tools
-- **File Manager**: Thunar with plugins
-- **Audio**: PipeWire + WirePlumber stack
-- **Notifications**: Dunst with gaming-themed styling
-- **Screenshots**: Hyprshot with region/window selection
-- **Fonts**: JetBrains Mono Nerd Font, Orbitron, Exo 2
-
-## 🚀 Installation
-
-### Prerequisites
-1. Fresh Arch Linux installation with base system
-2. Network connectivity
-3. Non-root user with sudo privileges
-
-### Quick Install
-```bash
-# Clone or download the setup script
-curl -L -o wehttam-setup.sh(https://raw.githubusercontent.com/Crowdrocker/wehttamsnaps-rice/refs/heads/main/wehttam-setup.sh)
-chmod +x wehttam-setup.sh
-./wehttam-setup.sh
-```
-
-### Manual Installation
-If you prefer to review before running:
-```bash
-# Download and inspect the script first
-wget https://raw.githubusercontent.com/Crowdrocker/wehttamsnaps-rice/refs/heads/main/wehttam-setup.sh -O wehttam-setup.sh
-less wehttam-setup.sh  # Review the script
-chmod +x wehttam-setup.sh
-./wehttam-setup.sh
-```
-
-The installation takes 15-30 minutes depending on your internet connection and hardware.
-
-## ⌨️ Key Bindings
-
-### Essential Controls
-| Keybind | Action |
-|---------|--------|
-| `Super + Return` | Open Terminal |
-| `Super + Space` | App Launcher (Rofi) |
-| `Super + A` | Game Launcher (EWW) |
-| `Super + E` | File Manager |
-| `Super + Q` | Close Window |
-| `Super + F` | Fullscreen Toggle |
-| `Super + V` | Float Toggle |
-
-### Gaming Specific
-| Keybind | Action |
-|---------|--------|
-| `Super + G` | Enable GameMode |
-| `Super + Shift + G` | Disable GameMode |
-| `Print` | Screenshot Display |
-| `Super + Print` | Screenshot Window |
-| `Super + Shift + S` | Screenshot Region |
-
-### Workspace Management
-| Keybind | Action |
-|---------|--------|
-| `Super + 1-9` | Switch to Workspace |
-| `Super + Shift + 1-9` | Move Window to Workspace |
-| `Super + H/J/K/L` | Move Focus (Vim-style) |
-
-### Audio & Media
-| Keybind | Action |
-|---------|--------|
-| `Volume Up/Down` | Adjust System Volume |
-| `Mute` | Toggle Audio Mute |
-| `Media Keys` | Control Spotify/Media |
-
-## 🎮 Gaming Features
-
-### Performance Optimizations
-- **GameMode**: Automatic CPU/GPU performance scaling
-- **MangoHud**: Real-time performance overlay with FPS, temps, usage
-- **ZRAM**: Compressed swap for better memory management  
-- **Immediate Window Rules**: Eliminates input lag for games
-- **Tearing Support**: Reduced latency for competitive gaming
-
-### Game Launcher Integration
-- Quick access to Steam, Lutris, Heroic Games Launcher
-- Automatic workspace assignment (Steam → WS5, Lutris → WS6)
-- GameMode status indicator in Waybar
-- One-click game launching via EWW overlay
-
-### Streaming Optimizations
-- OBS Studio with scene templates
-- Discord integration for chat overlay
-- Spotify controls for background music
-- Organized brand assets folder structure
-- Low-latency audio pipeline
-
-## 🎨 Customization
-
-### Color Scheme (TokyoNight Variant)
-- **Primary**: `#7aa2f7` (Blue)
-- **Secondary**: `#bb9af7` (Purple/Violet) 
-- **Accent**: `#7dcfff` (Cyan)
-- **Background**: `#1a1b26` (Dark Navy)
-- **Surface**: `#24283b` (Lighter Navy)
-- **Text**: `#c0caf5` (Light Blue-Gray)
-
-### Wallpaper
-The script generates a custom violet-to-cyan gradient wallpaper. You can replace it with your own:
-```bash
-# Replace the generated wallpaper
-cp your-wallpaper.jpg ~/Pictures/wallpapers/gaming-wallpaper.jpg
-# Reload Hyprpaper
-hyprctl dispatch exec hyprpaper
-```
-
-### Waybar Customization
-Edit `~/.config/waybar/config` and `~/.config/waybar/style.css` for status bar modifications.
-
-### Hyprland Tweaks
-Main config: `~/.config/hypr/hyprland.conf`
-- Window rules for specific games
-- Animation preferences
-- Workspace layouts
-- Keybinding modifications
-
-## 📊 System Monitoring
-
-### Built-in Monitoring
-- **Waybar Modules**: CPU, Memory, GPU, Temperature
-- **GameMode Indicator**: Shows when gaming optimizations are active
-- **MangoHud Overlay**: In-game performance metrics
-- **System Info App**: Fastfetch integration in welcome screen
-
-### Performance Tuning
-The setup includes several performance monitoring tools:
-```bash
-btop          # Beautiful system monitor
-htop          # Traditional system monitor  
-fastfetch     # System information
-mangohud      # Gaming performance overlay
-```
-
-## 🗂️ Directory Structure
-
-```
-~/
-├── .config/
-│   ├── hypr/           # Hyprland configuration
-│   ├── waybar/         # Status bar config
-│   ├── rofi/           # App launcher
-│   ├── eww/            # Game launcher widget
-│   └── MangoHud/       # Performance overlay
-├── Scripts/
-│   ├── wehttam-welcome.py    # Welcome application
-│   ├── startup.sh            # System startup script
-│   └── generate-wallpaper.py # Wallpaper generator
-├── Pictures/wallpapers/      # Background images
-└── WehttamSnaps-Brand/       # Streaming assets
-    ├── logo/           # Brand logos
-    ├── overlays/       # Stream overlays  
-    ├── panels/         # Info panels
-    ├── banners/        # Channel banners
-    ├── scenes/         # OBS scenes
-    ├── animated/       # Animated elements
-    ├── editable/       # Source files
-    └── fonts/          # Brand fonts
-```
-
-## 🛠️ Troubleshooting
-
-### Common Issues
-
-**Steam games not launching:**
-```bash
-# Enable Steam Proton for all games
-steam -console
-# In Steam console: enable_proton_for_all_titles 1
-```
-
-**Audio issues:**
-```bash
-# Restart audio services
-systemctl --user restart pipewire pipewire-pulse
-```
-
-**GameMode not working:**
-```bash
-# Check GameMode status
-gamemoded -s
-# Manually start GameMode daemon
-sudo systemctl start gamemode
-```
-
-**Low FPS in games:**
-```bash
-# Check GPU performance level
-cat /sys/class/drm/card0/device/power_dpm_force_performance_level
-# Force high performance
-echo performance | sudo tee /sys/class/drm/card0/device/power_dpm_force_performance_level
-```
-
-**Waybar not loading:**
-```bash
-# Restart Waybar
-pkill waybar && waybar &
-# Check configuration
-waybar --log-level debug
-```
-
-### Performance Tips
-
-1. **SSD Optimization**: Ensure games are installed on SSD, not HDD
-2. **ZRAM Configuration**: Verify ZRAM is active with `zramctl`
-3. **GPU Drivers**: Keep AMD/NVIDIA drivers updated
-4. **Game-Specific**: Use MangoHud to identify bottlenecks
-5. **Streaming**: Use hardware encoding when available
-
-## 🤝 Contributing
-
-### Reporting Issues
-- Include system specs (CPU, GPU, RAM)
-- Describe the problem with steps to reproduce
-- Include relevant log outputs
-- Mention if it's gaming-related or general system
-
-### Sharing Improvements
-- Fork the repository
-- Test changes on similar hardware
-- Document any new features
-- Submit pull request with detailed description
-
-## 📺 Streaming Integration
-
-### OBS Studio Setup
-The installation includes OBS with optimized settings for:
-- **Hardware encoding** (AMD/NVIDIA)
-- **Low-latency streaming**  
-- **Game capture** optimizations
-- **Audio mixing** for game + mic + music
-
-### Brand Assets Organization
-```
-WehttamSnaps-Brand/
-├── logo/               # Channel logos (PNG, SVG)
-├── overlays/           # Stream overlays
-├── panels/             # Information panels  
-├── banners/            # Social media banners
-├── scenes/             # OBS scene collections
-├── animated/           # GIF animations
-├── editable/           # Source files (PSD, AI)
-└── fonts/              # Brand typography
-```
-
-## 🎯 Workspaces Layout
-
-The setup includes an organized workspace layout:
-
-| Workspace | Purpose | Auto-assigned Apps |
-|-----------|---------|-------------------|
-| 1 | General/Terminal | Default workspace |
-| 2 | Web Browser | Firefox, Chromium |
-| 3 | Development | VSCode, editors |
-| 4 | Communication | Discord, chat apps |
-| 5 | Gaming Store | Steam client |
-| 6 | Game Launchers | Lutris, Heroic |
-| 7 | Streaming | OBS Studio |
-| 8 | Music | Spotify |
-| 9 | File Management | Thunar, archives |
-| 10 | System Tools | Settings, monitors |
-
-## 📝 License
-
-This configuration is open source and available under the MIT License. Feel free to use, modify, and distribute.
-
-## 🙏 Acknowledgments
-
-- **Hyprland Community** - For the amazing window manager
-- **TokyoNight Theme** - For the beautiful color scheme inspiration  
-- **Arch Linux Community** - For the robust base system
-- **Gaming on Linux Community** - For compatibility tools and support
-
-## 📞 Support
-
-- **GitHub Issues**: For bug reports and feature requests
-- **Discord**: WehttamSnaps community server
-- **Twitch**: Live troubleshooting and demos
-- **Reddit**: r/hyprland, r/unixporn for community support
+**Author:** Matthew (WehttamSnaps)  
+**GitHub:** [Crowdrocker](https://github.com/Crowdrocker)  
+**Hardware:** Dell XPS 8700 | i7-4790 | RX 580 | 16GB RAM
 
 ---
 
-**⭐ If this setup helped you, please star the repository and share it with other gamers!**
+## 📁 Repository Structure
 
-*Built with ❤️ for the Linux gaming community*
+```
+wehttamsnaps-dotfiles/
+├── README.md
+├── LICENSE
+├── CHANGELOG.md
+├── logo.txt                          # ASCII art branding
+├── install.sh                        # Main installer script
+│
+├── docs/
+│   ├── INSTALL.md                    # Step-by-step installation
+│   ├── QUICKSTART.md                 # First boot guide
+│   ├── KEYBINDS.md                   # Complete keybind reference
+│   ├── GAMING.md                     # Gaming optimization guide
+│   ├── PHOTOGRAPHY.md                # Photography workflow setup
+│   └── TROUBLESHOOTING.md            # Common issues & fixes
+│
+├── configs/
+│   ├── niri/                         # Niri compositor config
+│   │   ├── config.kdl                # Main Niri config
+│   │   ├── conf.d/
+│   │   │   ├── 00-base.kdl           # Base settings
+│   │   │   ├── 10-keybinds.kdl       # Keybindings
+│   │   │   ├── 20-rules.kdl          # Window rules
+│   │   │   ├── 30-work.kdl           # Photography workspace
+│   │   │   ├── 40-gaming.kdl         # Gaming profile
+│   │   │   └── 99-overrides.kdl      # User overrides
+│   │   └── autostart.sh              # Startup script
+│   │
+│   ├── noctalia/                     # Noctalia (Quickshell) shell
+│   │   ├── config/
+│   │   ├── widgets/
+│   │   │   ├── README.md
+│   │   │   ├── template/             # Widget template
+│   │   │   ├── work/                 # Photography widgets
+│   │   │   └── gaming/               # Gaming widgets
+│   │   └── themes/
+│   │
+│   ├── waybar/                       # Waybar backup config
+│   │   ├── config
+│   │   ├── style.css
+│   │   └── modules/
+│   │
+│   ├── ghostty/                      # Ghostty terminal
+│   │   └── config
+│   │
+│   ├── hyprlock/                     # Lock screen
+│   │   └── hyprlock.conf
+│   │
+│   ├── swaync/                       # Notifications
+│   │   ├── config.json
+│   │   └── style.css
+│   │
+│   ├── rofi/                         # App launcher
+│   │   ├── config.rasi
+│   │   └── themes/
+│   │
+│   ├── gtk-3.0/                      # GTK theming
+│   ├── gtk-4.0/
+│   └── kvantum/                      # Qt theming
+│
+├── scripts/
+│   ├── install/
+│   │   ├── base-packages.sh
+│   │   ├── noctalia-setup.sh
+│   │   ├── gaming-setup.sh
+│   │   └── photography-setup.sh
+│   │
+│   ├── widgets/
+│   │   ├── create_widget.sh          # Widget scaffold generator
+│   │   └── widget-template/
+│   │
+│   ├── audio/
+│   │   ├── audio-routing.sh          # PipeWire routing
+│   │   └── gaming-audio.sh           # Gaming audio profile
+│   │
+│   ├── gaming/
+│   │   ├── toggle-gamemode.sh
+│   │   ├── gamescope-launch.sh
+│   │   └── optimize-performance.sh
+│   │
+│   ├── webapps/
+│   │   ├── webapp-launcher.sh
+│   │   └── create-webapp.sh
+│   │
+│   ├── utils/
+│   │   ├── save-configs.sh
+│   │   ├── keyhints.sh               # Updated KeyHints
+│   │   └── screenshot.sh
+│   │
+│   └── startup/
+│       ├── welcome.py                # Welcome screen
+│       └── jarvis-startup.sh
+│
+├── webapps/
+│   ├── README.md
+│   ├── youtube.desktop
+│   ├── twitch.desktop
+│   ├── spotify.desktop
+│   └── discord.desktop
+│
+├── themes/
+│   ├── wehttamsnaps/                 # Custom theme
+│   │   ├── colors.json
+│   │   ├── gtk/
+│   │   ├── kvantum/
+│   │   └── plymouth/                 # Plymouth boot theme
+│   │       ├── wehttamsnaps.plymouth
+│   │       ├── wehttamsnaps.script
+│   │       └── logo-animation/
+│   │
+│   ├── jakoolit-tokyonight/          # JaKooLit themes
+│   └── sweet-ambar/
+│
+├── wallpapers/
+│   ├── photography/
+│   ├── abstract/
+│   └── gaming/
+│
+├── sounds/
+│   ├── jarvis-startup.mp3
+│   ├── jarvis-shutdown.mp3
+│   ├── jarvis-gaming.mp3
+│   └── jarvis-notification.mp3
+│
+├── packages/
+│   ├── core.list                     # Essential packages
+│   ├── photography.list              # Photo editing tools
+│   ├── gaming.list                   # Gaming packages
+│   ├── optional.list                 # Optional extras
+│   └── aur.list                      # AUR packages
+│
+└── backups/
+    └── .gitkeep
+```
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/Crowdrocker/wehttamsnaps-dotfiles.git
+cd wehttamsnaps-dotfiles
+
+# Run the interactive installer
+chmod +x install.sh
+./install.sh
+
+# Or install specific components
+./install.sh --core          # Essential configs only
+./install.sh --photography   # Add photography tools
+./install.sh --gaming        # Add gaming optimizations
+./install.sh --all           # Full installation
+```
+
+---
+
+## 📋 Features
+
+### Core Setup
+- **Compositor:** Niri (Wayland, scrollable tiling)
+- **Shell:** Noctalia (Quickshell-based, modern widgets)
+- **Backup Bar:** Waybar (fallback option)
+- **Terminal:** Ghostty (GPU-accelerated, modern)
+- **Font:** Fira Code + Nerd Fonts
+- **Theme:** Custom WehttamSnaps theme (inspired by JaKooLit)
+
+### Photography Workflow
+- Custom workspace layouts for photo editing
+- Color-accurate display profiles
+- Quick access to GIMP, Darktable, RawTherapee
+- Batch processing scripts
+- Metadata management tools
+
+### Gaming Optimization
+- Gamemode + Gamescope integration
+- Performance governor switching
+- AMD GPU optimizations for RX 580
+- Steam launch options for common games
+- Audio routing for streaming/recording
+- Proton compatibility fixes
+
+### Webapps Integration
+- Quick launcher for YouTube, Twitch, Spotify, Discord
+- Keybind support (SUPER + W + [key])
+- Native notifications
+- GPU acceleration
+
+---
+
+## 🎮 Gaming Fixes
+
+### Division 2 & Cyberpunk 2077 Stability
+```bash
+# Steam launch options (included in configs)
+Division 2:     PROTON_USE_WINED3D=1 DXVK_ASYNC=1 %command%
+Cyberpunk 2077: gamemoderun PROTON_NO_ESYNC=1 %command%
+
+# AMD RX 580 optimizations
+./scripts/gaming/optimize-performance.sh
+```
+
+---
+
+## 🎨 Customization
+
+### Creating Custom Widgets
+```bash
+# Generate a new Noctalia widget
+./scripts/widgets/create_widget.sh my-widget
+
+# Edit the widget
+nano configs/noctalia/widgets/my-widget/widget.qml
+```
+
+### Creating Webapps
+```bash
+# Create a new webapp launcher
+./scripts/webapps/create-webapp.sh "App Name" "https://app-url.com" "icon-name"
+```
+
+---
+
+## 🔑 Essential Keybinds
+
+| Keybind | Action | Notes |
+|---------|--------|-------|
+| `Mod+Space` | App Launcher (Noctalia) | Main launcher |
+| `Mod+Return` | Terminal (Ghostty) | Opens terminal |
+| `Mod+B` | Browser | Default browser |
+| `Mod+F` | File Manager | Thunar |
+| `Mod+W` | Webapp Menu | Quick webapp access |
+| `Mod+G` | Toggle Gamemode | Performance mode |
+| `Mod+P` | Photography Workspace | Photo editing layout |
+| `Mod+H` | KeyHints | This help screen |
+| `Mod+L` | Lock Screen | Hyprlock |
+| `Mod+Q` | Close Window | Gentle close |
+| `Mod+Shift+Q` | Kill Window | Force close |
+
+**Full keybind reference:** `docs/KEYBINDS.md`
+
+---
+
+## 🎯 Branch Structure
+
+- `main` - Stable release
+- `develop` - Development branch
+- `widgets` - Custom widget experiments
+- `themes` - Theme development
+- `gaming` - Gaming optimizations
+- `photography` - Photo workflow features
+
+---
+
+## 📦 Package Lists
+
+Cleaned and organized into categories:
+- **Core** (~50 packages): Niri, Noctalia, essential tools
+- **Photography** (~20 packages): GIMP, Darktable, etc.
+- **Gaming** (~30 packages): Steam, Lutris, Gamemode
+- **Optional** (~40 packages): Extras you might want
+
+---
+
+## 🤝 Contributing
+
+Feel free to fork and customize! If you create useful widgets or themes, consider submitting a PR.
+
+---
+
+## 📄 License
+
+MIT License - Feel free to use and modify
+
+---
+
+## 🔗 Links
+
+- **GitHub:** https://github.com/Crowdrocker
+- **Twitch:** https://twitch.tv/wehttamsnaps
+- **YouTube:** https://youtube.com/@wehttamsnaps
+
+---
+
+**Built with:** Niri + Noctalia + Arch Linux + ❤️ for Photography & Gaming

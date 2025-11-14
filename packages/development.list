@@ -1,0 +1,44 @@
+# ================================
+# DEVELOPMENT PACKAGES (packages/development.list)
+# For developers
+# ================================
+
+# Version Control
+git
+git-lfs
+github-cli
+
+# Languages
+python
+python-pip
+nodejs
+npm
+rust
+go
+
+# Build Tools
+cmake
+make
+gcc
+clang
+
+# Containers
+docker
+docker-compose
+podman
+
+# Databases
+postgresql
+mariadb
+
+# IDEs
+code
+neovim
+
+# Terminal Tools
+tmux
+screen
+
+# Debugging
+gdb
+valgrind

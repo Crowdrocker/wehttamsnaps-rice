@@ -1,0 +1,390 @@
+# ===================================================================
+# WehttamSnaps Package Lists
+# https://github.com/Crowdrocker/wehttamsnaps-dotfiles
+#
+# Organized by category for modular installation
+# ===================================================================
+
+# ================================
+# CORE PACKAGES (packages/core.list)
+# Essential packages for basic system
+# ================================
+
+# Base system
+base
+base-devel
+linux
+linux-firmware
+linux-headers
+
+# Boot & Init
+grub
+efibootmgr
+os-prober
+
+# Networking
+networkmanager
+network-manager-applet
+dhcpcd
+iwd
+bluez
+bluez-utils
+
+# Audio (PipeWire)
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
+pavucontrol
+qpwgraph
+
+# Niri Compositor
+niri  # AUR package
+
+# Noctalia Shell
+noctalia-shell  # AUR package
+quickshell
+
+# Terminal
+ghostty  # AUR package
+
+# Core utilities
+git
+wget
+curl
+rsync
+unzip
+zip
+tar
+htop
+btop
+fastfetch
+eza
+bat
+fd
+ripgrep
+fzf
+
+# Fonts
+ttf-fira-code
+ttf-firacode-nerd
+ttf-roboto
+ttf-dejavu
+noto-fonts
+noto-fonts-emoji
+ttf-jetbrains-mono-nerd
+inter-font
+
+# Essential apps
+thunar
+thunar-volman
+thunar-archive-plugin
+gvfs
+gvfs-mtp
+file-roller
+
+# System tools
+polkit-gnome
+brightnessctl
+ddcutil  # For desktop monitor brightness
+cliphist
+wl-clipboard
+
+# Notifications
+swaync
+
+# Lock screen
+hyprlock
+hypridle
+
+# Launchers
+rofi
+fuzzel
+
+# Screenshots
+grim
+slurp
+swappy
+
+# Themes
+gtk-engine-murrine
+kvantum
+qt5ct
+qt6ct
+bibata-cursor-theme
+
+# ================================
+# PHOTOGRAPHY PACKAGES (packages/photography.list)
+# Photo editing and RAW processing
+# ================================
+
+# RAW Processors
+darktable
+rawtherapee
+
+# Image Editors
+gimp
+krita
+inkscape
+
+# Photo Management
+digikam
+gwenview
+
+# Image Viewers
+nomacs
+loupe
+qview
+
+# Color Management
+colord
+
+# Batch Processing
+imagemagick
+
+# Metadata Tools
+exiftool
+
+# 3D (for advanced work)
+blender
+
+# Video Editing (for photography videos)
+kdenlive
+
+# ================================
+# GAMING PACKAGES (packages/gaming.list)
+# Gaming and performance tools
+# ================================
+
+# Game Launchers
+steam
+lutris
+heroic-games-launcher-bin  # AUR
+
+# Performance
+gamemode
+gamescope
+mangohud
+lib32-mangohud
+
+# AMD GPU Support
+mesa
+lib32-mesa
+vulkan-radeon
+lib32-vulkan-radeon
+vulkan-mesa-layers
+amdvlk
+lib32-amdvlk
+rocm-opencl-runtime
+corectrl
+
+# Proton/Wine
+wine-staging
+winetricks
+protonup-qt
+proton-ge-custom-bin  # AUR
+
+# Controller Support
+antimicrox
+
+# Streaming/Recording
+obs-studio
+obs-vaapi
+gpu-screen-recorder  # AUR
+
+# Communication
+discord
+legcord-bin  # AUR - privacy-focused Discord
+
+# ================================
+# OPTIONAL PACKAGES (packages/optional.list)
+# Nice-to-have extras
+# ================================
+
+# Browsers
+brave-bin  # AUR
+firefox
+chromium
+
+# Code Editors
+code  # Visual Studio Code (AUR)
+neovim
+
+# Media Players
+mpv
+mpv-mpris
+vlc
+celluloid
+
+# Music Players
+spotify  # AUR
+audacious
+cmus
+
+# Office
+libreoffice-fresh
+
+# PDF Viewers
+zathura
+zathura-pdf-mupdf
+okular
+
+# Archive Tools
+ark
+p7zip
+unrar
+
+# System Monitors
+mission-center
+nvtop
+radeontop
+
+# Disk Management
+gparted
+gnome-disk-utility
+btrfs-assistant
+
+# Backup Tools
+timeshift
+
+# Password Managers
+keepassxc
+
+# Email
+thunderbird
+
+# Messaging
+telegram-desktop
+signal-desktop
+
+# Cloud Storage
+rclone
+
+# Remote Desktop
+remmina
+
+# Virtual Machines
+virt-manager
+qemu-full
+
+# Development Tools
+docker
+docker-compose
+python
+python-pip
+nodejs
+npm
+
+# Terminal Enhancements
+zsh
+starship
+zoxide
+tldr
+
+# File Managers (alternatives)
+nautilus
+nemo
+
+# ================================
+# AUR PACKAGES (packages/aur.list)
+# Packages from AUR
+# ================================
+
+# Core
+niri
+noctalia-shell
+quickshell
+ghostty
+
+# Gaming
+mangohud
+lib32-mangohud
+proton-ge-custom-bin
+gpu-screen-recorder
+heroic-games-launcher-bin
+legcord-bin
+
+# Applications
+brave-bin
+spotify
+code
+visual-studio-code-bin
+
+# Tools
+paru  # AUR helper
+yay  # Alternative AUR helper
+
+# Themes
+plymouth-theme-arch-charge  # Boot animation
+
+# Other
+mission-center
+
+# ================================
+# DEVELOPMENT PACKAGES (packages/development.list)
+# For developers
+# ================================
+
+# Version Control
+git
+git-lfs
+github-cli
+
+# Languages
+python
+python-pip
+nodejs
+npm
+rust
+go
+
+# Build Tools
+cmake
+make
+gcc
+clang
+
+# Containers
+docker
+docker-compose
+podman
+
+# Databases
+postgresql
+mariadb
+
+# IDEs
+code
+neovim
+
+# Terminal Tools
+tmux
+screen
+
+# Debugging
+gdb
+valgrind
+
+# ================================
+# NOTES
+# ================================
+
+# Installation order:
+# 1. core.list - Essential system packages
+# 2. photography.list or gaming.list - Based on your needs
+# 3. optional.list - As needed
+# 4. development.list - If you're a developer
+
+# Install commands:
+# sudo pacman -S --needed - < packages/core.list
+# paru -S --needed - < packages/aur.list
+
+# Total package count (approximate):
+# Core: ~60 packages
+# Photography: ~20 packages
+# Gaming: ~35 packages
+# Optional: ~50 packages
+# Development: ~25 packages
+
+# Cleaned from original 600+ packages to ~190 essential packages

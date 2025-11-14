@@ -1,0 +1,88 @@
+# ================================
+# OPTIONAL PACKAGES (packages/optional.list)
+# Nice-to-have extras
+# ================================
+
+# Browsers
+brave-bin  # AUR
+firefox
+chromium
+
+# Code Editors
+code  # Visual Studio Code (AUR)
+neovim
+
+# Media Players
+mpv
+mpv-mpris
+vlc
+celluloid
+
+# Music Players
+spotify  # AUR
+audacious
+cmus
+
+# Office
+libreoffice-fresh
+
+# PDF Viewers
+zathura
+zathura-pdf-mupdf
+okular
+
+# Archive Tools
+ark
+p7zip
+unrar
+
+# System Monitors
+mission-center
+nvtop
+radeontop
+
+# Disk Management
+gparted
+gnome-disk-utility
+btrfs-assistant
+
+# Backup Tools
+timeshift
+
+# Password Managers
+keepassxc
+
+# Email
+thunderbird
+
+# Messaging
+telegram-desktop
+signal-desktop
+
+# Cloud Storage
+rclone
+
+# Remote Desktop
+remmina
+
+# Virtual Machines
+virt-manager
+qemu-full
+
+# Development Tools
+docker
+docker-compose
+python
+python-pip
+nodejs
+npm
+
+# Terminal Enhancements
+zsh
+starship
+zoxide
+tldr
+
+# File Managers (alternatives)
+nautilus
+nemo

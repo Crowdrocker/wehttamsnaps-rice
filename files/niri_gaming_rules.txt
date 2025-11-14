@@ -1,0 +1,290 @@
+// ===================================================================
+// WehttamSnaps Niri Gaming Window Rules
+// https://github.com/Crowdrocker/wehttamsnaps-dotfiles
+//
+// Window rules for Vortex, SteamTinkerLaunch, and gaming tools
+// Add to: ~/.config/niri/conf.d/40-gaming.kdl
+// ===================================================================
+
+// ===================================================================
+// VORTEX MOD MANAGER
+// ===================================================================
+
+// Main Vortex window
+window-rule {
+    match app-id="^vortex.exe$"
+    match title="Vortex"
+    
+    default-column-width { fixed 1280; }
+    open-floating true
+    
+    // Center on screen
+    // Note: Niri doesn't have explicit "center" yet, use size/position
+}
+
+// Vortex file picker dialogs
+window-rule {
+    match app-id="^vortex.exe$"
+    match title="(Open|Save|Browse)"
+    
+    open-floating true
+    default-column-width { fixed 800; }
+}
+
+// Vortex settings windows
+window-rule {
+    match app-id="^vortex.exe$"
+    match title="Settings"
+    
+    open-floating true
+    default-column-width { fixed 900; }
+}
+
+// Wine system tray (suppress)
+window-rule {
+    match title="^Wine System Tray$"
+    
+    // Don't steal focus
+    block-out-from "screen-capture"
+}
+
+// ===================================================================
+// STEAMTINKERLAUNCH
+// ===================================================================
+
+// SteamTinkerLaunch main window
+window-rule {
+    match app-id="^steamtinkerlaunch$"
+    match title="Steam Tinker Launch"
+    
+    default-column-width { fixed 1024; }
+    open-floating true
+}
+
+// SteamTinkerLaunch dialogs
+window-rule {
+    match app-id="^steamtinkerlaunch$"
+    match title="(Configuration|Settings|Tools)"
+    
+    open-floating true
+    default-column-width { fixed 800; }
+}
+
+// ===================================================================
+// MOD ORGANIZER 2
+// ===================================================================
+
+// MO2 main window (from Steam/Proton)
+window-rule {
+    match app-id="^steam_app_1091500$"
+    match title="^Mod Organizer 2"
+    
+    default-column-width { fixed 1280; }
+    open-floating true
+}
+
+// MO2 standalone
+window-rule {
+    match app-id="^ModOrganizer.exe$"
+    
+    default-column-width { fixed 1280; }
+    open-floating true
+}
+
+// MO2 file pickers and dialogs (stay on top)
+window-rule {
+    match app-id="^steam_app_1091500$"
+    match title="^(Open|Save|Select|Browse)"
+    
+    open-floating true
+    default-column-width { fixed 800; }
+}
+
+// ===================================================================
+// GAME LAUNCHERS
+// ===================================================================
+
+// Steam (if floating)
+window-rule {
+    match app-id="^steam$"
+    
+    default-column-width { proportion 0.6; }
+}
+
+// Lutris
+window-rule {
+    match app-id="^lutris$"
+    
+    default-column-width { proportion 0.6; }
+}
+
+// Heroic Games Launcher
+window-rule {
+    match app-id="^heroic$"
+    
+    default-column-width { proportion 0.6; }
+}
+
+// ===================================================================
+// GAME WINDOWS
+// ===================================================================
+
+// Cyberpunk 2077
+window-rule {
+    match app-id="^steam_app_1091500$"
+    match title="Cyberpunk 2077"
+    
+    open-maximized true
+    open-on-workspace 3
+}
+
+// Fallout 4
+window-rule {
+    match app-id="^steam_app_377160$"
+    match title="Fallout4"
+    
+    open-maximized true
+    open-on-workspace 3
+}
+
+// Starfield
+window-rule {
+    match app-id="^steam_app_1716740$"
+    match title="Starfield"
+    
+    open-maximized true
+    open-on-workspace 3
+}
+
+// Generic Steam games (fullscreen)
+window-rule {
+    match app-id="^steam_app_"
+    
+    open-maximized true
+}
+
+// ===================================================================
+// GAMING TOOLS
+// ===================================================================
+
+// CoreCtrl (AMD GPU control)
+window-rule {
+    match app-id="^corectrl$"
+    
+    open-floating true
+    default-column-width { fixed 800; }
+}
+
+// MangoHud config
+window-rule {
+    match app-id="^mangohud$"
+    
+    open-floating true
+    default-column-width { fixed 600; }
+}
+
+// GOverlay (MangoHud GUI)
+window-rule {
+    match app-id="^goverlay$"
+    
+    open-floating true
+    default-column-width { fixed 900; }
+}
+
+// OBS Studio
+window-rule {
+    match app-id="^com.obsproject.Studio$"
+    
+    default-column-width { proportion 0.7; }
+    open-on-workspace 5
+}
+
+// ===================================================================
+// PROTON/WINE APPLICATIONS
+// ===================================================================
+
+// Wine file dialogs
+window-rule {
+    match app-id="^wine$"
+    match title="(Open|Save|Browse)"
+    
+    open-floating true
+    default-column-width { fixed 700; }
+}
+
+// Winetricks
+window-rule {
+    match title="^Winetricks"
+    
+    open-floating true
+    default-column-width { fixed 600; }
+}
+
+// ===================================================================
+// DISCORD (for streaming)
+// ===================================================================
+
+window-rule {
+    match app-id="^(discord|webcord|vesktop)$"
+    
+    default-column-width { proportion 0.4; }
+    open-on-workspace 4
+}
+
+// ===================================================================
+// SPECIAL RULES
+// ===================================================================
+
+// Prevent Wine system tray from appearing
+window-rule {
+    match title="^Wine System Tray$"
+    
+    block-out-from "screen-capture"
+    // Don't show in taskbar/overview
+}
+
+// Suppress Proton splash screens
+window-rule {
+    match app-id="^steam_proton$"
+    match title="^Proton"
+    
+    block-out-from "screen-capture"
+}
+
+// ===================================================================
+// FLOATING TERMINAL (for debugging games)
+// ===================================================================
+
+window-rule {
+    match app-id="^floating-game-terminal$"
+    
+    open-floating true
+    default-column-width { fixed 1000; }
+}
+
+// ===================================================================
+// NOTES
+// ===================================================================
+
+// To use these rules:
+// 1. Copy this file to ~/.config/niri/conf.d/40-gaming.kdl
+// 2. Reload Niri config: Mod+Shift+C
+//
+// To find app-id of a window:
+// 1. Run: niri msg windows
+// 2. Look for "app_id" field
+//
+// To test window rules:
+// 1. Launch application
+// 2. Check if rules applied correctly
+// 3. Adjust as needed
+//
+// For SteamTinkerLaunch specifically:
+// - Main window floats at 1024x720
+// - Dialogs float at 800x600
+// - Use "Center" placement (when Niri adds support)
+//
+// For Vortex:
+// - Main window floats at 1280x720
+// - Dialogs smaller
+// - Wine system tray suppressed

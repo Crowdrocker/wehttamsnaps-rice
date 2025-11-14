@@ -1,0 +1,465 @@
+#!/bin/bash
+# ===================================================================
+# WehttamSnaps Emergency Game Recovery Script
+# https://github.com/Crowdrocker/wehttamsnaps-dotfiles
+#
+# Nuclear option for fixing broken game installations
+# ===================================================================
+
+set -e
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+print_header() {
+    echo -e "${RED}"
+    echo "╔═══════════════════════════════════════════════╗"
+    echo "║   ⚠️  EMERGENCY GAME RECOVERY  ⚠️            ║"
+    echo "╚═══════════════════════════════════════════════╝"
+    echo -e "${NC}"
+}
+
+print_step() {
+    echo -e "${GREEN}▶${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}✓${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}✗${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}⚠${NC} $1"
+}
+
+# ===================================================================
+# GAME CONFIGURATION
+# ===================================================================
+
+declare -A GAME_APPIDS
+GAME_APPIDS=(
+    ["cyberpunk"]=1091500
+    ["fallout4"]=377160
+    ["starfield"]=1716740
+)
+
+declare -A GAME_NAMES
+GAME_NAMES=(
+    ["cyberpunk"]="Cyberpunk 2077"
+    ["fallout4"]="Fallout 4"
+    ["starfield"]="Starfield"
+)
+
+declare -A GAME_PATHS
+GAME_PATHS=(
+    ["cyberpunk"]="Cyberpunk 2077"
+    ["fallout4"]="Fallout 4"
+    ["starfield"]="Starfield"
+)
+
+# ===================================================================
+# RECOVERY FUNCTIONS
+# ===================================================================
+
+backup_saves() {
+    local game=$1
+    local appid=${GAME_APPIDS[$game]}
+    
+    print_step "Creating emergency save backup..."
+    
+    # Use the backup script if available
+    if command -v backup-saves &>/dev/null; then
+        backup-saves --game "$game" 2>/dev/null
+        print_success "Saves backed up"
+    else
+        print_warning "Backup script not found - saves not backed up!"
+        read -p "Continue anyway? (yes/no): " -r
+        if [[ ! $REPLY =~ ^[Yy][Ee][Ss]$ ]]; then
+            echo "Recovery cancelled"
+            exit 0
+        fi
+    fi
+}
+
+disable_mods_vortex() {
+    local game=$1
+    
+    print_step "Checking for Vortex..."
+    
+    if command -v vortex &>/dev/null; then
+        print_warning "Please disable all mods in Vortex for ${GAME_NAMES[$game]}"
+        echo "1. Open Vortex"
+        echo "2. Select ${GAME_NAMES[$game]}"
+        echo "3. Go to Mods tab"
+        echo "4. Select all mods (Ctrl+A)"
+        echo "5. Disable all mods"
+        echo "6. Purge mods"
+        echo ""
+        read -p "Press Enter when done..."
+        print_success "Mods disabled in Vortex"
+    else
+        print_warning "Vortex not found - skipping"
+    fi
+}
+
+delete_shader_cache() {
+    local appid=$1
+    local cache_dir=~/.local/share/Steam/steamapps/shadercache/$appid
+    
+    print_step "Deleting shader cache..."
+    
+    if [ -d "$cache_dir" ]; then
+        local cache_size=$(du -sh "$cache_dir" 2>/dev/null | cut -f1)
+        rm -rf "$cache_dir"
+        print_success "Shader cache deleted ($cache_size)"
+    else
+        print_warning "No shader cache found"
+    fi
+}
+
+delete_proton_prefix() {
+    local appid=$1
+    local prefix_dir=~/.local/share/Steam/steamapps/compatdata/$appid
+    
+    print_step "Deleting Proton prefix..."
+    
+    if [ -d "$prefix_dir" ]; then
+        local prefix_size=$(du -sh "$prefix_dir" 2>/dev/null | cut -f1)
+        
+        print_warning "This will delete Wine prefix ($prefix_size)"
+        print_warning "Game will regenerate on next launch"
+        read -p "Continue? (yes/no): " -r
+        
+        if [[ $REPLY =~ ^[Yy][Ee][Ss]$ ]]; then
+            rm -rf "$prefix_dir"
+            print_success "Proton prefix deleted"
+        else
+            print_warning "Skipping prefix deletion"
+        fi
+    else
+        print_warning "No Proton prefix found"
+    fi
+}
+
+delete_config_files() {
+    local game=$1
+    local appid=${GAME_APPIDS[$game]}
+    
+    print_step "Deleting configuration files..."
+    
+    case $game in
+        cyberpunk)
+            local config_dir=~/.local/share/Steam/steamapps/compatdata/$appid/pfx/drive_c/users/steamuser/AppData/Local/CD\ Projekt\ Red/Cyberpunk\ 2077
+            if [ -d "$config_dir" ]; then
+                # Keep saves, delete configs
+                find "$config_dir" -name "*.json" -delete 2>/dev/null
+                find "$config_dir" -name "*.ini" -delete 2>/dev/null
+                print_success "Cyberpunk configs deleted"
+            fi
+            ;;
+        fallout4)
+            local config_dir=~/.local/share/Steam/steamapps/compatdata/$appid/pfx/drive_c/users/steamuser/Documents/My\ Games/Fallout4
+            if [ -d "$config_dir" ]; then
+                rm -f "$config_dir"/*.ini 2>/dev/null
+                rm -f "$config_dir"/*.cfg 2>/dev/null
+                print_success "Fallout 4 configs deleted"
+            fi
+            ;;
+        starfield)
+            local config_dir=~/.local/share/Steam/steamapps/compatdata/$appid/pfx/drive_c/users/steamuser/Documents/My\ Games/Starfield
+            if [ -d "$config_dir" ]; then
+                rm -f "$config_dir"/*.ini 2>/dev/null
+                print_success "Starfield configs deleted"
+            fi
+            ;;
+    esac
+}
+
+delete_script_extender() {
+    local game=$1
+    local game_dir=~/.local/share/Steam/steamapps/common/${GAME_PATHS[$game]}
+    
+    print_step "Removing script extender..."
+    
+    case $game in
+        fallout4)
+            if [ -d "$game_dir" ]; then
+                rm -f "$game_dir"/f4se_*.dll 2>/dev/null
+                rm -f "$game_dir"/f4se_loader.exe 2>/dev/null
+                rm -rf "$game_dir"/Data/F4SE 2>/dev/null
+                print_success "F4SE removed"
+            fi
+            ;;
+        starfield)
+            if [ -d "$game_dir" ]; then
+                rm -f "$game_dir"/sfse_*.dll 2>/dev/null
+                rm -f "$game_dir"/sfse_loader.exe 2>/dev/null
+                rm -rf "$game_dir"/Data/SFSE 2>/dev/null
+                print_success "SFSE removed"
+            fi
+            ;;
+        cyberpunk)
+            if [ -d "$game_dir" ]; then
+                rm -rf "$game_dir"/bin/x64/plugins/cyber_engine_tweaks 2>/dev/null
+                rm -rf "$game_dir"/red4ext 2>/dev/null
+                print_success "CET and RED4ext removed"
+            fi
+            ;;
+    esac
+}
+
+verify_game_files() {
+    local game_name=${GAME_NAMES[$1]}
+    
+    print_step "Verifying game files..."
+    print_warning "This must be done manually in Steam"
+    echo ""
+    echo "Steps:"
+    echo "1. Open Steam"
+    echo "2. Go to Library"
+    echo "3. Right-click $game_name"
+    echo "4. Select Properties"
+    echo "5. Go to Local Files tab"
+    echo "6. Click 'Verify integrity of game files'"
+    echo "7. Wait for verification to complete"
+    echo ""
+    read -p "Press Enter when verification is complete..."
+    print_success "Game files verified"
+}
+
+clear_download_cache() {
+    print_step "Clearing Steam download cache..."
+    
+    print_warning "This will clear ALL Steam download cache"
+    read -p "Continue? (yes/no): " -r
+    
+    if [[ $REPLY =~ ^[Yy][Ee][Ss]$ ]]; then
+        rm -rf ~/.local/share/Steam/appcache
+        rm -rf ~/.local/share/Steam/depotcache
+        print_success "Download cache cleared"
+        print_warning "Steam will rebuild cache on next launch"
+    else
+        print_warning "Skipping download cache"
+    fi
+}
+
+# ===================================================================
+# RECOVERY LEVELS
+# ===================================================================
+
+recovery_level_1() {
+    # Soft recovery - just reset configs
+    local game=$1
+    
+    echo -e "${CYAN}═══════════════════════════════════════════════${NC}"
+    echo -e "${CYAN}LEVEL 1: Soft Recovery${NC}"
+    echo -e "${CYAN}═══════════════════════════════════════════════${NC}"
+    echo ""
+    echo "This will:"
+    echo "• Disable mods in Vortex"
+    echo "• Delete shader cache"
+    echo "• Delete configuration files"
+    echo ""
+    
+    read -p "Continue? (yes/no): " -r
+    if [[ ! $REPLY =~ ^[Yy][Ee][Ss]$ ]]; then
+        echo "Recovery cancelled"
+        exit 0
+    fi
+    
+    echo ""
+    backup_saves "$game"
+    disable_mods_vortex "$game"
+    delete_shader_cache "${GAME_APPIDS[$game]}"
+    delete_config_files "$game"
+    
+    echo ""
+    echo -e "${GREEN}═══════════════════════════════════════════════${NC}"
+    print_success "Level 1 recovery complete!"
+    echo -e "${GREEN}═══════════════════════════════════════════════${NC}"
+    echo ""
+    echo "Next steps:"
+    echo "1. Launch ${GAME_NAMES[$game]}"
+    echo "2. Reconfigure graphics settings"
+    echo "3. Test without mods first"
+    echo "4. Re-enable mods one by one"
+}
+
+recovery_level_2() {
+    # Medium recovery - delete prefix + verify files
+    local game=$1
+    
+    echo -e "${YELLOW}═══════════════════════════════════════════════${NC}"
+    echo -e "${YELLOW}LEVEL 2: Medium Recovery${NC}"
+    echo -e "${YELLOW}═══════════════════════════════════════════════${NC}"
+    echo ""
+    echo "This will:"
+    echo "• Everything from Level 1"
+    echo "• Delete Proton Wine prefix"
+    echo "• Remove script extenders"
+    echo "• Verify game files in Steam"
+    echo ""
+    
+    read -p "Continue? (yes/no): " -r
+    if [[ ! $REPLY =~ ^[Yy][Ee][Ss]$ ]]; then
+        echo "Recovery cancelled"
+        exit 0
+    fi
+    
+    echo ""
+    backup_saves "$game"
+    disable_mods_vortex "$game"
+    delete_shader_cache "${GAME_APPIDS[$game]}"
+    delete_config_files "$game"
+    delete_script_extender "$game"
+    delete_proton_prefix "${GAME_APPIDS[$game]}"
+    verify_game_files "$game"
+    
+    echo ""
+    echo -e "${GREEN}═══════════════════════════════════════════════${NC}"
+    print_success "Level 2 recovery complete!"
+    echo -e "${GREEN}═══════════════════════════════════════════════${NC}"
+    echo ""
+    echo "Next steps:"
+    echo "1. Launch ${GAME_NAMES[$game]} (will regenerate prefix)"
+    echo "2. Wait for first-time setup"
+    echo "3. Reinstall script extender if needed"
+    echo "4. Reconfigure everything"
+    echo "5. Add mods back slowly"
+}
+
+recovery_level_3() {
+    # Nuclear option - everything
+    local game=$1
+    
+    echo -e "${RED}═══════════════════════════════════════════════${NC}"
+    echo -e "${RED}LEVEL 3: NUCLEAR RECOVERY${NC}"
+    echo -e "${RED}═══════════════════════════════════════════════${NC}"
+    echo ""
+    print_warning "⚠️  THIS IS THE NUCLEAR OPTION  ⚠️"
+    echo ""
+    echo "This will:"
+    echo "• Everything from Level 2"
+    echo "• Clear Steam download cache"
+    echo "• Force complete reinstall"
+    echo ""
+    
+    print_error "This should only be used as a last resort!"
+    echo ""
+    
+    read -p "Are you ABSOLUTELY SURE? Type 'NUCLEAR' to continue: " -r
+    if [[ $REPLY != "NUCLEAR" ]]; then
+        echo "Recovery cancelled"
+        exit 0
+    fi
+    
+    echo ""
+    backup_saves "$game"
+    disable_mods_vortex "$game"
+    delete_shader_cache "${GAME_APPIDS[$game]}"
+    delete_config_files "$game"
+    delete_script_extender "$game"
+    delete_proton_prefix "${GAME_APPIDS[$game]}"
+    clear_download_cache
+    verify_game_files "$game"
+    
+    echo ""
+    echo -e "${GREEN}═══════════════════════════════════════════════${NC}"
+    print_success "Level 3 NUCLEAR recovery complete!"
+    echo -e "${GREEN}═══════════════════════════════════════════════${NC}"
+    echo ""
+    echo "Next steps:"
+    echo "1. Restart Steam completely"
+    echo "2. Launch ${GAME_NAMES[$game]}"
+    echo "3. Game will do first-time setup"
+    echo "4. Reinstall EVERYTHING (extenders, mods, etc.)"
+    echo "5. Start completely fresh"
+}
+
+# ===================================================================
+# MAIN
+# ===================================================================
+
+show_help() {
+    print_header
+    echo "Usage: $0 [game] [level]"
+    echo ""
+    echo "Games:"
+    echo "  cyberpunk, cp2077   Cyberpunk 2077"
+    echo "  fallout4, fo4       Fallout 4"
+    echo "  starfield, sf       Starfield"
+    echo ""
+    echo "Recovery Levels:"
+    echo "  1 or soft           Soft recovery (configs only)"
+    echo "  2 or medium         Medium recovery (prefix + verify)"
+    echo "  3 or nuclear        Nuclear recovery (complete reset)"
+    echo ""
+    echo "Examples:"
+    echo "  $0 cyberpunk 1      # Soft recovery for Cyberpunk"
+    echo "  $0 fallout4 medium  # Medium recovery for Fallout 4"
+    echo "  $0 starfield 3      # Nuclear recovery for Starfield"
+    echo ""
+}
+
+main() {
+    local game_input=$1
+    local level=$2
+    
+    # Validate game
+    case $game_input in
+        cyberpunk|cp2077|cp)
+            local game="cyberpunk"
+            ;;
+        fallout4|fo4|fallout)
+            local game="fallout4"
+            ;;
+        starfield|sf)
+            local game="starfield"
+            ;;
+        --help|-h|"")
+            show_help
+            exit 0
+            ;;
+        *)
+            print_error "Unknown game: $game_input"
+            show_help
+            exit 1
+            ;;
+    esac
+    
+    # Validate level
+    case $level in
+        1|soft)
+            print_header
+            recovery_level_1 "$game"
+            ;;
+        2|medium)
+            print_header
+            recovery_level_2 "$game"
+            ;;
+        3|nuclear)
+            print_header
+            recovery_level_3 "$game"
+            ;;
+        "")
+            print_error "Please specify recovery level"
+            show_help
+            exit 1
+            ;;
+        *)
+            print_error "Unknown recovery level: $level"
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

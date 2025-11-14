@@ -1,0 +1,34 @@
+# ================================
+# AUR PACKAGES (packages/aur.list)
+# Packages from AUR
+# ================================
+
+# Core
+niri
+noctalia-shell
+quickshell
+ghostty
+
+# Gaming
+mangohud
+lib32-mangohud
+proton-ge-custom-bin
+gpu-screen-recorder
+heroic-games-launcher-bin
+legcord-bin
+
+# Applications
+brave-bin
+spotify
+code
+visual-studio-code-bin
+
+# Tools
+paru  # AUR helper
+yay  # Alternative AUR helper
+
+# Themes
+plymouth-theme-arch-charge  # Boot animation
+
+# Other
+mission-center

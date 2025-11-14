@@ -1,0 +1,609 @@
+#!/bin/bash
+# ===================================================================
+# WehttamSnaps Mod Collection Manager
+# https://github.com/Crowdrocker/wehttamsnaps-dotfiles
+#
+# Manage different mod loadouts for each game
+# ===================================================================
+
+set -e
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+print_header() {
+    echo -e "${CYAN}"
+    echo "╔═══════════════════════════════════════════════╗"
+    echo "║   Mod Collection Manager                     ║"
+    echo "╚═══════════════════════════════════════════════╝"
+    echo -e "${NC}"
+}
+
+print_step() {
+    echo -e "${GREEN}▶${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}✓${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}✗${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}⚠${NC} $1"
+}
+
+# ===================================================================
+# CONFIGURATION
+# ===================================================================
+
+COLLECTIONS_DIR="$HOME/.config/wehttamsnaps/mod-collections"
+VORTEX_PREFIX="$HOME/.local/share/wineprefixes/vortex"
+
+declare -A GAME_APPIDS
+GAME_APPIDS=(
+    ["cyberpunk"]=1091500
+    ["fallout4"]=377160
+    ["starfield"]=1716740
+)
+
+declare -A GAME_NAMES
+GAME_NAMES=(
+    ["cyberpunk"]="Cyberpunk 2077"
+    ["fallout4"]="Fallout 4"
+    ["starfield"]="Starfield"
+)
+
+# ===================================================================
+# FUNCTIONS
+# ===================================================================
+
+validate_game() {
+    local game=$1
+    
+    case $game in
+        cyberpunk|cp2077|cp)
+            echo "cyberpunk"
+            ;;
+        fallout4|fo4|fallout)
+            echo "fallout4"
+            ;;
+        starfield|sf)
+            echo "starfield"
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+get_vortex_profile_path() {
+    local game=$1
+    local profile=$2
+    
+    case $game in
+        cyberpunk)
+            echo "$VORTEX_PREFIX/drive_c/users/$USER/AppData/Roaming/Vortex/cyberpunk2077/profiles/$profile"
+            ;;
+        fallout4)
+            echo "$VORTEX_PREFIX/drive_c/users/$USER/AppData/Roaming/Vortex/fallout4/profiles/$profile"
+            ;;
+        starfield)
+            echo "$VORTEX_PREFIX/drive_c/users/$USER/AppData/Roaming/Vortex/starfield/profiles/$profile"
+            ;;
+    esac
+}
+
+get_plugins_path() {
+    local game=$1
+    local appid=${GAME_APPIDS[$game]}
+    
+    case $game in
+        cyberpunk)
+            echo ""  # Cyberpunk doesn't use plugins.txt
+            ;;
+        fallout4)
+            echo "$HOME/.local/share/Steam/steamapps/compatdata/$appid/pfx/drive_c/users/steamuser/AppData/Local/Fallout4/plugins.txt"
+            ;;
+        starfield)
+            echo "$HOME/.local/share/Steam/steamapps/compatdata/$appid/pfx/drive_c/users/steamuser/AppData/Local/Starfield/plugins.txt"
+            ;;
+    esac
+}
+
+# ===================================================================
+# CREATE COLLECTION
+# ===================================================================
+
+create_collection() {
+    local game=$1
+    local collection_name=$2
+    
+    print_header
+    print_step "Creating collection: $collection_name for ${GAME_NAMES[$game]}"
+    echo ""
+    
+    # Create collection directory
+    local collection_dir="$COLLECTIONS_DIR/$game/$collection_name"
+    mkdir -p "$collection_dir"
+    
+    # Save current Vortex profile (if exists)
+    print_step "Saving Vortex profile..."
+    # Note: This requires Vortex API access or manual export
+    # For now, we'll save the mod list and plugins
+    
+    # Save plugins.txt (for Fallout 4 and Starfield)
+    local plugins_path=$(get_plugins_path "$game")
+    if [ -n "$plugins_path" ] && [ -f "$plugins_path" ]; then
+        cp "$plugins_path" "$collection_dir/plugins.txt"
+        print_success "Plugins saved"
+    fi
+    
+    # Save mod list from Vortex (read from Vortex's state)
+    # This is a simplified version - full implementation would read Vortex's state.json
+    
+    # Create metadata
+    cat > "$collection_dir/metadata.json" << EOF
+{
+  "name": "$collection_name",
+  "game": "$game",
+  "created": "$(date -Iseconds)",
+  "description": ""
+}
+EOF
+    
+    # Create mod list template
+    cat > "$collection_dir/modlist.txt" << EOF
+# Mod Collection: $collection_name
+# Game: ${GAME_NAMES[$game]}
+# Created: $(date)
+
+# Add mod names here, one per line
+# Format: ModName (NexusID)
+# Example: Cyber Engine Tweaks (107)
+
+EOF
+    
+    print_success "Collection created: $collection_dir"
+    echo ""
+    echo "Edit the collection:"
+    echo "  nano $collection_dir/modlist.txt"
+    echo "  nano $collection_dir/metadata.json"
+}
+
+# ===================================================================
+# LIST COLLECTIONS
+# ===================================================================
+
+list_collections() {
+    local game=$1
+    
+    print_header
+    
+    if [ -n "$game" ]; then
+        echo "Collections for ${GAME_NAMES[$game]}:"
+        echo ""
+        
+        if [ ! -d "$COLLECTIONS_DIR/$game" ]; then
+            print_warning "No collections found for $game"
+            return
+        fi
+        
+        local count=1
+        for collection in "$COLLECTIONS_DIR/$game"/*/; do
+            if [ -d "$collection" ]; then
+                local name=$(basename "$collection")
+                local metadata="$collection/metadata.json"
+                
+                echo -e "${GREEN}$count.${NC} $name"
+                
+                if [ -f "$metadata" ]; then
+                    local created=$(jq -r '.created' "$metadata" 2>/dev/null || echo "Unknown")
+                    local desc=$(jq -r '.description' "$metadata" 2>/dev/null || echo "")
+                    
+                    echo "   Created: $created"
+                    [ -n "$desc" ] && echo "   Description: $desc"
+                fi
+                
+                # Count mods
+                if [ -f "$collection/modlist.txt" ]; then
+                    local mod_count=$(grep -v '^#' "$collection/modlist.txt" | grep -v '^$' | wc -l)
+                    echo "   Mods: $mod_count"
+                fi
+                
+                echo ""
+                ((count++))
+            fi
+        done
+    else
+        echo "All collections:"
+        echo ""
+        
+        for game_dir in cyberpunk fallout4 starfield; do
+            if [ -d "$COLLECTIONS_DIR/$game_dir" ]; then
+                echo -e "${BLUE}${GAME_NAMES[$game_dir]}:${NC}"
+                
+                for collection in "$COLLECTIONS_DIR/$game_dir"/*/; do
+                    if [ -d "$collection" ]; then
+                        local name=$(basename "$collection")
+                        echo "  • $name"
+                    fi
+                done
+                
+                echo ""
+            fi
+        done
+    fi
+}
+
+# ===================================================================
+# SHOW COLLECTION DETAILS
+# ===================================================================
+
+show_collection() {
+    local game=$1
+    local collection_name=$2
+    
+    print_header
+    
+    local collection_dir="$COLLECTIONS_DIR/$game/$collection_name"
+    
+    if [ ! -d "$collection_dir" ]; then
+        print_error "Collection not found: $collection_name"
+        return 1
+    fi
+    
+    echo "Collection: $collection_name"
+    echo "Game: ${GAME_NAMES[$game]}"
+    echo ""
+    
+    # Show metadata
+    if [ -f "$collection_dir/metadata.json" ]; then
+        echo "Metadata:"
+        jq '.' "$collection_dir/metadata.json"
+        echo ""
+    fi
+    
+    # Show mod list
+    if [ -f "$collection_dir/modlist.txt" ]; then
+        echo "Mods:"
+        echo "───────────────────────────────────────"
+        grep -v '^#' "$collection_dir/modlist.txt" | grep -v '^$' | nl
+        echo ""
+    fi
+    
+    # Show plugins (if applicable)
+    if [ -f "$collection_dir/plugins.txt" ]; then
+        echo "Plugins:"
+        echo "───────────────────────────────────────"
+        head -n 20 "$collection_dir/plugins.txt"
+        echo ""
+    fi
+}
+
+# ===================================================================
+# EXPORT CURRENT SETUP
+# ===================================================================
+
+export_current() {
+    local game=$1
+    local collection_name=$2
+    
+    print_header
+    print_step "Exporting current setup to: $collection_name"
+    echo ""
+    
+    local collection_dir="$COLLECTIONS_DIR/$game/$collection_name"
+    mkdir -p "$collection_dir"
+    
+    # Export plugins.txt
+    local plugins_path=$(get_plugins_path "$game")
+    if [ -n "$plugins_path" ] && [ -f "$plugins_path" ]; then
+        cp "$plugins_path" "$collection_dir/plugins.txt"
+        print_success "Plugins exported"
+    fi
+    
+    # Export load order (for applicable games)
+    case $game in
+        fallout4|starfield)
+            local loadorder_path=$(dirname "$plugins_path")/loadorder.txt
+            if [ -f "$loadorder_path" ]; then
+                cp "$loadorder_path" "$collection_dir/loadorder.txt"
+                print_success "Load order exported"
+            fi
+            ;;
+    esac
+    
+    # Create/update metadata
+    cat > "$collection_dir/metadata.json" << EOF
+{
+  "name": "$collection_name",
+  "game": "$game",
+  "exported": "$(date -Iseconds)",
+  "description": "Exported from current setup"
+}
+EOF
+    
+    print_success "Collection exported: $collection_dir"
+    echo ""
+    echo "Manually document your mods in:"
+    echo "  $collection_dir/modlist.txt"
+}
+
+# ===================================================================
+# COMPARE COLLECTIONS
+# ===================================================================
+
+compare_collections() {
+    local game=$1
+    local collection1=$2
+    local collection2=$3
+    
+    print_header
+    echo "Comparing collections:"
+    echo "  $collection1 vs $collection2"
+    echo ""
+    
+    local dir1="$COLLECTIONS_DIR/$game/$collection1"
+    local dir2="$COLLECTIONS_DIR/$game/$collection2"
+    
+    if [ ! -d "$dir1" ] || [ ! -d "$dir2" ]; then
+        print_error "One or both collections not found"
+        return 1
+    fi
+    
+    # Compare mod lists
+    if [ -f "$dir1/modlist.txt" ] && [ -f "$dir2/modlist.txt" ]; then
+        echo "Mod differences:"
+        echo "───────────────────────────────────────"
+        diff "$dir1/modlist.txt" "$dir2/modlist.txt" || true
+        echo ""
+    fi
+    
+    # Compare plugins
+    if [ -f "$dir1/plugins.txt" ] && [ -f "$dir2/plugins.txt" ]; then
+        echo "Plugin differences:"
+        echo "───────────────────────────────────────"
+        diff "$dir1/plugins.txt" "$dir2/plugins.txt" || true
+        echo ""
+    fi
+}
+
+# ===================================================================
+# DELETE COLLECTION
+# ===================================================================
+
+delete_collection() {
+    local game=$1
+    local collection_name=$2
+    
+    print_header
+    
+    local collection_dir="$COLLECTIONS_DIR/$game/$collection_name"
+    
+    if [ ! -d "$collection_dir" ]; then
+        print_error "Collection not found: $collection_name"
+        return 1
+    fi
+    
+    print_warning "Delete collection: $collection_name?"
+    echo "This cannot be undone!"
+    echo ""
+    
+    read -p "Type 'DELETE' to confirm: " confirm
+    
+    if [ "$confirm" = "DELETE" ]; then
+        rm -rf "$collection_dir"
+        print_success "Collection deleted"
+    else
+        echo "Cancelled"
+    fi
+}
+
+# ===================================================================
+# PRESET COLLECTIONS
+# ===================================================================
+
+create_preset() {
+    local game=$1
+    local preset=$2
+    
+    print_header
+    print_step "Creating preset collection: $preset"
+    echo ""
+    
+    local collection_dir="$COLLECTIONS_DIR/$game/$preset"
+    mkdir -p "$collection_dir"
+    
+    case $preset in
+        vanilla)
+            cat > "$collection_dir/modlist.txt" << 'EOF'
+# Vanilla - No Mods
+# Pure vanilla experience
+
+# No mods installed
+EOF
+            ;;
+        
+        performance)
+            case $game in
+                cyberpunk)
+                    cat > "$collection_dir/modlist.txt" << 'EOF'
+# Performance Collection - Cyberpunk 2077
+# Optimized for RX 580
+
+# Essential Frameworks
+Cyber Engine Tweaks (107)
+RED4ext (2380)
+ArchiveXL (4198)
+TweakXL (4197)
+
+# Performance
+Preem Clutter Remover (8616)
+Better Headlights (2820)
+EOF
+                    ;;
+                fallout4)
+                    cat > "$collection_dir/modlist.txt" << 'EOF'
+# Performance Collection - Fallout 4
+# Optimized for RX 580
+
+# Essential
+Unofficial Fallout 4 Patch (4598)
+Buffout 4 (47359)
+Boston FPS Fix (26286)
+Insignificant Object Remover (9835)
+FAR - Faraway Area Reform (20713)
+EOF
+                    ;;
+                starfield)
+                    cat > "$collection_dir/modlist.txt" << 'EOF'
+# Performance Collection - Starfield
+# Optimized for RX 580
+
+# Performance
+Starfield Performance Optimizations (2199)
+Low Spec PCs - Performance Boost (123)
+Remove Planetary Haze (499)
+Better Shadows (556)
+Smooth Ship Reticle (629)
+EOF
+                    ;;
+            esac
+            ;;
+        
+        immersive)
+            print_warning "Immersive preset not yet defined for $game"
+            ;;
+    esac
+    
+    cat > "$collection_dir/metadata.json" << EOF
+{
+  "name": "$preset",
+  "game": "$game",
+  "created": "$(date -Iseconds)",
+  "description": "Preset collection: $preset",
+  "preset": true
+}
+EOF
+    
+    print_success "Preset created: $collection_dir"
+}
+
+# ===================================================================
+# HELP
+# ===================================================================
+
+show_help() {
+    print_header
+    echo "Usage: $0 <command> [options]"
+    echo ""
+    echo "Commands:"
+    echo "  create <game> <name>           Create new collection"
+    echo "  list [game]                    List all collections"
+    echo "  show <game> <name>             Show collection details"
+    echo "  export <game> <name>           Export current setup"
+    echo "  compare <game> <name1> <name2> Compare two collections"
+    echo "  delete <game> <name>           Delete collection"
+    echo "  preset <game> <type>           Create preset collection"
+    echo ""
+    echo "Games: cyberpunk, fallout4, starfield"
+    echo ""
+    echo "Presets: vanilla, performance, immersive"
+    echo ""
+    echo "Examples:"
+    echo "  $0 create cyberpunk my-setup"
+    echo "  $0 list fallout4"
+    echo "  $0 export cyberpunk current"
+    echo "  $0 preset starfield performance"
+    echo "  $0 compare fallout4 current old"
+}
+
+# ===================================================================
+# MAIN
+# ===================================================================
+
+main() {
+    local command=$1
+    shift
+    
+    case $command in
+        create)
+            local game=$(validate_game "$1")
+            if [ $? -ne 0 ]; then
+                print_error "Invalid game: $1"
+                exit 1
+            fi
+            create_collection "$game" "$2"
+            ;;
+        list)
+            if [ -n "$1" ]; then
+                local game=$(validate_game "$1")
+                if [ $? -ne 0 ]; then
+                    print_error "Invalid game: $1"
+                    exit 1
+                fi
+                list_collections "$game"
+            else
+                list_collections
+            fi
+            ;;
+        show)
+            local game=$(validate_game "$1")
+            if [ $? -ne 0 ]; then
+                print_error "Invalid game: $1"
+                exit 1
+            fi
+            show_collection "$game" "$2"
+            ;;
+        export)
+            local game=$(validate_game "$1")
+            if [ $? -ne 0 ]; then
+                print_error "Invalid game: $1"
+                exit 1
+            fi
+            export_current "$game" "$2"
+            ;;
+        compare)
+            local game=$(validate_game "$1")
+            if [ $? -ne 0 ]; then
+                print_error "Invalid game: $1"
+                exit 1
+            fi
+            compare_collections "$game" "$2" "$3"
+            ;;
+        delete)
+            local game=$(validate_game "$1")
+            if [ $? -ne 0 ]; then
+                print_error "Invalid game: $1"
+                exit 1
+            fi
+            delete_collection "$game" "$2"
+            ;;
+        preset)
+            local game=$(validate_game "$1")
+            if [ $? -ne 0 ]; then
+                print_error "Invalid game: $1"
+                exit 1
+            fi
+            create_preset "$game" "$2"
+            ;;
+        --help|-h|"")
+            show_help
+            ;;
+        *)
+            print_error "Unknown command: $command"
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

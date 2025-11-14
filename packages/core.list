@@ -1,0 +1,108 @@
+# ================================
+# CORE PACKAGES (packages/core.list)
+# Essential packages for basic system
+# ================================
+
+# Base system
+base
+base-devel
+linux
+linux-firmware
+linux-headers
+
+# Boot & Init
+grub
+efibootmgr
+os-prober
+
+# Networking
+networkmanager
+network-manager-applet
+dhcpcd
+iwd
+bluez
+bluez-utils
+
+# Audio (PipeWire)
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
+pavucontrol
+qpwgraph
+
+# Niri Compositor
+niri  # AUR package
+
+# Noctalia Shell
+noctalia-shell  # AUR package
+quickshell
+
+# Terminal
+ghostty  # AUR package
+
+# Core utilities
+git
+wget
+curl
+rsync
+unzip
+zip
+tar
+htop
+btop
+fastfetch
+eza
+bat
+fd
+ripgrep
+fzf
+
+# Fonts
+ttf-fira-code
+ttf-firacode-nerd
+ttf-roboto
+ttf-dejavu
+noto-fonts
+noto-fonts-emoji
+ttf-jetbrains-mono-nerd
+inter-font
+
+# Essential apps
+thunar
+thunar-volman
+thunar-archive-plugin
+gvfs
+gvfs-mtp
+file-roller
+
+# System tools
+polkit-gnome
+brightnessctl
+ddcutil  # For desktop monitor brightness
+cliphist
+wl-clipboard
+
+# Notifications
+swaync
+
+# Lock screen
+hyprlock
+hypridle
+
+# Launchers
+rofi
+fuzzel
+
+# Screenshots
+grim
+slurp
+swappy
+
+# Themes
+gtk-engine-murrine
+kvantum
+qt5ct
+qt6ct
+bibata-cursor-theme

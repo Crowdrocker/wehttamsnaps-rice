@@ -1,0 +1,297 @@
+# WehttamSnaps - Professional Niri Dotfiles
+
+> A modular, photography-focused Arch Linux setup with Niri compositor and Noctalia shell
+
+**Author:** Matthew (WehttamSnaps)  
+**GitHub:** [Crowdrocker](https://github.com/Crowdrocker)  
+**Hardware:** Dell XPS 8700 | i7-4790 | RX 580 | 16GB RAM
+
+---
+
+## 📁 Repository Structure
+
+```
+wehttamsnaps-dotfiles/
+├── README.md
+├── LICENSE
+├── CHANGELOG.md
+├── logo.txt                          # ASCII art branding
+├── install.sh                        # Main installer script
+│
+├── docs/
+│   ├── INSTALL.md                    # Step-by-step installation
+│   ├── QUICKSTART.md                 # First boot guide
+│   ├── KEYBINDS.md                   # Complete keybind reference
+│   ├── GAMING.md                     # Gaming optimization guide
+│   ├── PHOTOGRAPHY.md                # Photography workflow setup
+│   └── TROUBLESHOOTING.md            # Common issues & fixes
+│
+├── configs/
+│   ├── niri/                         # Niri compositor config
+│   │   ├── config.kdl                # Main Niri config
+│   │   ├── conf.d/
+│   │   │   ├── 00-base.kdl           # Base settings
+│   │   │   ├── 10-keybinds.kdl       # Keybindings
+│   │   │   ├── 20-rules.kdl          # Window rules
+│   │   │   ├── 30-work.kdl           # Photography workspace
+│   │   │   ├── 40-gaming.kdl         # Gaming profile
+│   │   │   └── 99-overrides.kdl      # User overrides
+│   │   └── autostart.sh              # Startup script
+│   │
+│   ├── noctalia/                     # Noctalia (Quickshell) shell
+│   │   ├── config/
+│   │   ├── widgets/
+│   │   │   ├── README.md
+│   │   │   ├── template/             # Widget template
+│   │   │   ├── work/                 # Photography widgets
+│   │   │   └── gaming/               # Gaming widgets
+│   │   └── themes/
+│   │
+│   ├── waybar/                       # Waybar backup config
+│   │   ├── config
+│   │   ├── style.css
+│   │   └── modules/
+│   │
+│   ├── ghostty/                      # Ghostty terminal
+│   │   └── config
+│   │
+│   ├── hyprlock/                     # Lock screen
+│   │   └── hyprlock.conf
+│   │
+│   ├── swaync/                       # Notifications
+│   │   ├── config.json
+│   │   └── style.css
+│   │
+│   ├── rofi/                         # App launcher
+│   │   ├── config.rasi
+│   │   └── themes/
+│   │
+│   ├── gtk-3.0/                      # GTK theming
+│   ├── gtk-4.0/
+│   └── kvantum/                      # Qt theming
+│
+├── scripts/
+│   ├── install/
+│   │   ├── base-packages.sh
+│   │   ├── noctalia-setup.sh
+│   │   ├── gaming-setup.sh
+│   │   └── photography-setup.sh
+│   │
+│   ├── widgets/
+│   │   ├── create_widget.sh          # Widget scaffold generator
+│   │   └── widget-template/
+│   │
+│   ├── audio/
+│   │   ├── audio-routing.sh          # PipeWire routing
+│   │   └── gaming-audio.sh           # Gaming audio profile
+│   │
+│   ├── gaming/
+│   │   ├── toggle-gamemode.sh
+│   │   ├── gamescope-launch.sh
+│   │   └── optimize-performance.sh
+│   │
+│   ├── webapps/
+│   │   ├── webapp-launcher.sh
+│   │   └── create-webapp.sh
+│   │
+│   ├── utils/
+│   │   ├── save-configs.sh
+│   │   ├── keyhints.sh               # Updated KeyHints
+│   │   └── screenshot.sh
+│   │
+│   └── startup/
+│       ├── welcome.py                # Welcome screen
+│       └── jarvis-startup.sh
+│
+├── webapps/
+│   ├── README.md
+│   ├── youtube.desktop
+│   ├── twitch.desktop
+│   ├── spotify.desktop
+│   └── discord.desktop
+│
+├── themes/
+│   ├── wehttamsnaps/                 # Custom theme
+│   │   ├── colors.json
+│   │   ├── gtk/
+│   │   ├── kvantum/
+│   │   └── plymouth/                 # Plymouth boot theme
+│   │       ├── wehttamsnaps.plymouth
+│   │       ├── wehttamsnaps.script
+│   │       └── logo-animation/
+│   │
+│   ├── jakoolit-tokyonight/          # JaKooLit themes
+│   └── sweet-ambar/
+│
+├── wallpapers/
+│   ├── photography/
+│   ├── abstract/
+│   └── gaming/
+│
+├── sounds/
+│   ├── jarvis-startup.mp3
+│   ├── jarvis-shutdown.mp3
+│   ├── jarvis-gaming.mp3
+│   └── jarvis-notification.mp3
+│
+├── packages/
+│   ├── core.list                     # Essential packages
+│   ├── photography.list              # Photo editing tools
+│   ├── gaming.list                   # Gaming packages
+│   ├── optional.list                 # Optional extras
+│   └── aur.list                      # AUR packages
+│
+└── backups/
+    └── .gitkeep
+```
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/Crowdrocker/wehttamsnaps-dotfiles.git
+cd wehttamsnaps-dotfiles
+
+# Run the interactive installer
+chmod +x install.sh
+./install.sh
+
+# Or install specific components
+./install.sh --core          # Essential configs only
+./install.sh --photography   # Add photography tools
+./install.sh --gaming        # Add gaming optimizations
+./install.sh --all           # Full installation
+```
+
+---
+
+## 📋 Features
+
+### Core Setup
+- **Compositor:** Niri (Wayland, scrollable tiling)
+- **Shell:** Noctalia (Quickshell-based, modern widgets)
+- **Backup Bar:** Waybar (fallback option)
+- **Terminal:** Ghostty (GPU-accelerated, modern)
+- **Font:** Fira Code + Nerd Fonts
+- **Theme:** Custom WehttamSnaps theme (inspired by JaKooLit)
+
+### Photography Workflow
+- Custom workspace layouts for photo editing
+- Color-accurate display profiles
+- Quick access to GIMP, Darktable, RawTherapee
+- Batch processing scripts
+- Metadata management tools
+
+### Gaming Optimization
+- Gamemode + Gamescope integration
+- Performance governor switching
+- AMD GPU optimizations for RX 580
+- Steam launch options for common games
+- Audio routing for streaming/recording
+- Proton compatibility fixes
+
+### Webapps Integration
+- Quick launcher for YouTube, Twitch, Spotify, Discord
+- Keybind support (SUPER + W + [key])
+- Native notifications
+- GPU acceleration
+
+---
+
+## 🎮 Gaming Fixes
+
+### Division 2 & Cyberpunk 2077 Stability
+```bash
+# Steam launch options (included in configs)
+Division 2:     PROTON_USE_WINED3D=1 DXVK_ASYNC=1 %command%
+Cyberpunk 2077: gamemoderun PROTON_NO_ESYNC=1 %command%
+
+# AMD RX 580 optimizations
+./scripts/gaming/optimize-performance.sh
+```
+
+---
+
+## 🎨 Customization
+
+### Creating Custom Widgets
+```bash
+# Generate a new Noctalia widget
+./scripts/widgets/create_widget.sh my-widget
+
+# Edit the widget
+nano configs/noctalia/widgets/my-widget/widget.qml
+```
+
+### Creating Webapps
+```bash
+# Create a new webapp launcher
+./scripts/webapps/create-webapp.sh "App Name" "https://app-url.com" "icon-name"
+```
+
+---
+
+## 🔑 Essential Keybinds
+
+| Keybind | Action | Notes |
+|---------|--------|-------|
+| `Mod+Space` | App Launcher (Noctalia) | Main launcher |
+| `Mod+Return` | Terminal (Ghostty) | Opens terminal |
+| `Mod+B` | Browser | Default browser |
+| `Mod+F` | File Manager | Thunar |
+| `Mod+W` | Webapp Menu | Quick webapp access |
+| `Mod+G` | Toggle Gamemode | Performance mode |
+| `Mod+P` | Photography Workspace | Photo editing layout |
+| `Mod+H` | KeyHints | This help screen |
+| `Mod+L` | Lock Screen | Hyprlock |
+| `Mod+Q` | Close Window | Gentle close |
+| `Mod+Shift+Q` | Kill Window | Force close |
+
+**Full keybind reference:** `docs/KEYBINDS.md`
+
+---
+
+## 🎯 Branch Structure
+
+- `main` - Stable release
+- `develop` - Development branch
+- `widgets` - Custom widget experiments
+- `themes` - Theme development
+- `gaming` - Gaming optimizations
+- `photography` - Photo workflow features
+
+---
+
+## 📦 Package Lists
+
+Cleaned and organized into categories:
+- **Core** (~50 packages): Niri, Noctalia, essential tools
+- **Photography** (~20 packages): GIMP, Darktable, etc.
+- **Gaming** (~30 packages): Steam, Lutris, Gamemode
+- **Optional** (~40 packages): Extras you might want
+
+---
+
+## 🤝 Contributing
+
+Feel free to fork and customize! If you create useful widgets or themes, consider submitting a PR.
+
+---
+
+## 📄 License
+
+MIT License - Feel free to use and modify
+
+---
+
+## 🔗 Links
+
+- **GitHub:** https://github.com/Crowdrocker
+- **Twitch:** https://twitch.tv/wehttamsnaps
+- **YouTube:** https://youtube.com/@wehttamsnaps
+
+---
+
+**Built with:** Niri + Noctalia + Arch Linux + ❤️ for Photography & Gaming

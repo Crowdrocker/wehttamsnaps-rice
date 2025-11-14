@@ -1,0 +1,319 @@
+// ===================================================================
+// WehttamSnaps Niri Keybindings
+// https://github.com/Crowdrocker/wehttamsnaps-dotfiles
+// 
+// Mod = Super/Windows key
+// Use Mod+H for help overlay
+// ===================================================================
+
+binds {
+    // ===================================================================
+    // CORE NOCTALIA SHELL
+    // ===================================================================
+    
+    // Application Launcher
+    Mod+Space { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
+    
+    // Control Center (settings, toggles, etc.)
+    Mod+S { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
+    
+    // Settings Panel
+    Mod+Comma { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "settings" "toggle"; }
+    
+    // Clipboard History
+    Mod+V { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "clipboard"; }
+    
+    // Calculator
+    Mod+C { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "calculator"; }
+    
+    // Notification History
+    Mod+N { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
+    
+    // Toggle Do Not Disturb
+    Mod+Shift+N { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "notifications" "toggleDND"; }
+    
+    // Lock Screen
+    Mod+L { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "toggle"; }
+    
+    // Session Menu (logout, reboot, shutdown)
+    Mod+Shift+E { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
+    
+    // Toggle Bar Visibility
+    Mod+B { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "bar" "toggle"; }
+    
+    // Toggle Dark/Light Mode
+    Mod+T { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "darkMode" "toggle"; }
+    
+    // Wallpaper Selector
+    Mod+W { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "wallpaper" "toggle"; }
+    
+    // Random Wallpaper
+    Mod+Shift+W { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "wallpaper" "random"; }
+    
+    // Idle Inhibitor (prevent sleep)
+    Mod+I { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "idleInhibitor" "toggle"; }
+    
+    // KeyHints (this help screen)
+    Mod+H { spawn "bash" "~/.config/wehttamsnaps/scripts/utils/keyhints.sh"; }
+    
+    // ===================================================================
+    // APPLICATIONS
+    // ===================================================================
+    
+    // Terminal
+    Mod+Return { spawn "ghostty"; }
+    Mod+Shift+Return { spawn "ghostty" "--class" "floating-terminal"; }
+    
+    // Browser
+    Mod+Shift+B { spawn "brave"; }
+    
+    // File Manager
+    Mod+F { spawn "thunar"; }
+    
+    // Text Editor
+    Mod+E { spawn "code"; }
+    
+    // Screenshot (full screen)
+    Print { spawn "bash" "~/.config/wehttamsnaps/scripts/utils/screenshot.sh" "full"; }
+    
+    // Screenshot (region)
+    Mod+Print { spawn "bash" "~/.config/wehttamsnaps/scripts/utils/screenshot.sh" "region"; }
+    
+    // Screenshot (active window)
+    Mod+Shift+Print { spawn "bash" "~/.config/wehttamsnaps/scripts/utils/screenshot.sh" "window"; }
+    
+    // ===================================================================
+    // WEBAPPS (Mod+W + [key])
+    // ===================================================================
+    
+    // YouTube
+    Mod+Shift+Y { spawn "bash" "~/.config/wehttamsnaps/scripts/webapps/webapp-launcher.sh" "youtube"; }
+    
+    // Twitch
+    Mod+Shift+T { spawn "bash" "~/.config/wehttamsnaps/scripts/webapps/webapp-launcher.sh" "twitch"; }
+    
+    // Spotify
+    Mod+Shift+S { spawn "bash" "~/.config/wehttamsnaps/scripts/webapps/webapp-launcher.sh" "spotify"; }
+    
+    // Discord
+    Mod+Shift+D { spawn "bash" "~/.config/wehttamsnaps/scripts/webapps/webapp-launcher.sh" "discord"; }
+    
+    // ===================================================================
+    // PHOTOGRAPHY WORKFLOW (Mod+P + [key])
+    // ===================================================================
+    
+    // GIMP
+    Mod+Shift+G { spawn "gimp"; }
+    
+    // Darktable
+    Mod+Shift+R { spawn "darktable"; }
+    
+    // RawTherapee
+    Mod+Shift+A { spawn "rawtherapee"; }
+    
+    // Krita (for editing/retouching)
+    Mod+Shift+K { spawn "krita"; }
+    
+    // Photography Workspace Layout
+    Mod+P { spawn "bash" "~/.config/wehttamsnaps/scripts/photography/workspace-layout.sh"; }
+    
+    // ===================================================================
+    // GAMING CONTROLS (Mod+G + [key])
+    // ===================================================================
+    
+    // Toggle Gamemode
+    Mod+G { spawn "bash" "~/.config/wehttamsnaps/scripts/gaming/toggle-gamemode.sh"; }
+    
+    // Launch Steam
+    Mod+Shift+G+S { spawn "steam"; }
+    
+    // Launch Lutris
+    Mod+Shift+G+L { spawn "lutris"; }
+    
+    // AMD GPU Control (CoreCtrl)
+    Mod+Shift+G+C { spawn "corectrl"; }
+    
+    // Toggle Performance Profile
+    Mod+Shift+G+P { spawn "bash" "~/.config/wehttamsnaps/scripts/gaming/optimize-performance.sh"; }
+    
+    // ===================================================================
+    // AUDIO & MEDIA CONTROLS
+    // ===================================================================
+    
+    // Volume Up
+    XF86AudioRaiseVolume { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "increase"; }
+    
+    // Volume Down
+    XF86AudioLowerVolume { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "decrease"; }
+    
+    // Mute Output
+    XF86AudioMute { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "muteOutput"; }
+    
+    // Mute Input (microphone)
+    XF86AudioMicMute { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "muteInput"; }
+    
+    // Media Play/Pause
+    XF86AudioPlay { spawn "playerctl" "play-pause"; }
+    
+    // Media Next
+    XF86AudioNext { spawn "playerctl" "next"; }
+    
+    // Media Previous
+    XF86AudioPrev { spawn "playerctl" "previous"; }
+    
+    // Media Stop
+    XF86AudioStop { spawn "playerctl" "stop"; }
+    
+    // Fallback media controls (Mod + arrows)
+    Mod+Up { spawn "playerctl" "play-pause"; }
+    Mod+Right { spawn "playerctl" "next"; }
+    Mod+Left { spawn "playerctl" "previous"; }
+    Mod+Down { spawn "playerctl" "stop"; }
+    
+    // ===================================================================
+    // BRIGHTNESS CONTROLS
+    // ===================================================================
+    
+    XF86MonBrightnessUp { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "brightness" "increase"; }
+    XF86MonBrightnessDown { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "brightness" "decrease"; }
+    
+    // ===================================================================
+    // SCREEN RECORDING
+    // ===================================================================
+    
+    // Toggle screen recording
+    Mod+Shift+R { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "screenRecorder" "toggle"; }
+    
+    // ===================================================================
+    // WINDOW MANAGEMENT
+    // ===================================================================
+    
+    // Close window
+    Mod+Q { close-window; }
+    
+    // Kill window (force)
+    Mod+Shift+Q { spawn "bash" "-c" "kill -9 $(hyprctl activewindow -j | jq -r '.pid')"; }
+    
+    // Toggle fullscreen
+    Mod+Shift+F { fullscreen-window; }
+    
+    // Toggle floating
+    Mod+Shift+Space { toggle-window-floating; }
+    
+    // Center floating window
+    Mod+C { center-column; }
+    
+    // Maximize column width
+    Mod+M { maximize-column; }
+    
+    // Set column width presets
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-column-width "33%"; }
+    Mod+Shift+Equal { set-column-width "50%"; }
+    Mod+Shift+Plus { set-column-width "67%"; }
+    
+    // ===================================================================
+    // WINDOW FOCUS
+    // ===================================================================
+    
+    // Focus windows
+    Mod+Left { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Down { focus-window-down; }
+    Mod+Up { focus-window-up; }
+    
+    // Alternative VIM-style navigation
+    Mod+H { focus-column-left; }
+    Mod+L { focus-column-right; }
+    Mod+J { focus-window-down; }
+    Mod+K { focus-window-up; }
+    
+    // Focus monitors
+    Mod+Shift+Left { focus-monitor-left; }
+    Mod+Shift+Right { focus-monitor-right; }
+    Mod+Shift+Down { focus-monitor-down; }
+    Mod+Shift+Up { focus-monitor-up; }
+    
+    // ===================================================================
+    // WINDOW MOVEMENT
+    // ===================================================================
+    
+    // Move windows
+    Mod+Ctrl+Left { move-column-left; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+Down { move-window-down; }
+    Mod+Ctrl+Up { move-window-up; }
+    
+    // Alternative VIM-style movement
+    Mod+Ctrl+H { move-column-left; }
+    Mod+Ctrl+L { move-column-right; }
+    Mod+Ctrl+J { move-window-down; }
+    Mod+Ctrl+K { move-window-up; }
+    
+    // Move to monitor
+    Mod+Ctrl+Shift+Left { move-column-to-monitor-left; }
+    Mod+Ctrl+Shift+Right { move-column-to-monitor-right; }
+    Mod+Ctrl+Shift+Down { move-column-to-monitor-down; }
+    Mod+Ctrl+Shift+Up { move-column-to-monitor-up; }
+    
+    // ===================================================================
+    // WORKSPACE NAVIGATION
+    // ===================================================================
+    
+    // Switch workspaces
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    
+    // Switch to previous/next workspace
+    Mod+Tab { focus-workspace-down; }
+    Mod+Shift+Tab { focus-workspace-up; }
+    
+    // Move window to workspace
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+    
+    // Move to previous/next workspace
+    Mod+Ctrl+Tab { move-column-to-workspace-down; }
+    Mod+Ctrl+Shift+Tab { move-column-to-workspace-up; }
+    
+    // ===================================================================
+    // COMPOSITOR CONTROLS
+    // ===================================================================
+    
+    // Reload config
+    Mod+Shift+C { spawn "niri" "msg" "action" "reload-config"; }
+    
+    // Quit Niri
+    Mod+Shift+Escape { quit; }
+    
+    // Switch to TTY
+    Mod+Ctrl+Shift+T { switch-to-tty; }
+    
+    // Screenshot config notification
+    Mod+Shift+Slash { screenshot-screen; }
+}
+
+// ===================================================================
+// MOUSE BINDS
+// ===================================================================
+
+binds {
+    // Mod + Left Click = Move window
+    Mod+WheelScrollDown { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "decrease"; }
+    Mod+WheelScrollUp { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "increase"; }
+}

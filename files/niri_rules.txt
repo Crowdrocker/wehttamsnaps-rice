@@ -1,0 +1,383 @@
+// ===================================================================
+// WehttamSnaps Niri Window Rules
+// https://github.com/Crowdrocker/wehttamsnaps-dotfiles
+// ===================================================================
+
+// ===================================================================
+// GENERAL RULES
+// ===================================================================
+
+window-rule {
+    // All windows get rounded corners by default
+    geometry-corner-radius 12
+    clip-to-geometry true
+}
+
+// ===================================================================
+// FLOATING WINDOWS
+// ===================================================================
+
+// #FLOATING: Dialogs and popups
+window-rule {
+    match window-type="dialog"
+    open-floating true
+}
+
+window-rule {
+    match window-type="splash"
+    open-floating true
+}
+
+window-rule {
+    match window-type="utility"
+    open-floating true
+}
+
+// #FLOATING: File pickers
+window-rule {
+    match app-id="^(xdg-desktop-portal|qs)$"
+    open-floating true
+}
+
+// #FLOATING: Floating terminal
+window-rule {
+    match app-id="floating-terminal"
+    open-floating true
+    default-column-width { fixed 1000; }
+}
+
+// #FLOATING: Calculator
+window-rule {
+    match app-id="(calculator|qalculate-gtk|galculator)"
+    open-floating true
+}
+
+// #FLOATING: Image viewers
+window-rule {
+    match app-id="(imv|feh|sxiv|qview|nomacs|loupe)"
+    open-floating true
+}
+
+// #FLOATING: Media players (small)
+window-rule {
+    match app-id="(mpv|vlc)"
+    open-floating true
+}
+
+// #FLOATING: System monitors
+window-rule {
+    match app-id="(btop|htop|nvtop|mission-center)"
+    open-floating true
+    default-column-width { fixed 1200; }
+}
+
+// ===================================================================
+// TILED WINDOWS
+// ===================================================================
+
+// #TILED: Terminals
+window-rule {
+    match app-id="^ghostty$"
+    open-maximized false
+    default-column-width { proportion 0.5; }
+}
+
+window-rule {
+    match app-id="(kitty|Alacritty|foot)"
+    default-column-width { proportion 0.5; }
+}
+
+// #TILED: Browsers
+window-rule {
+    match app-id="(brave-browser|firefox|chromium|zen-browser)"
+    default-column-width { proportion 0.67; }
+}
+
+// #TILED: Code editors
+window-rule {
+    match app-id="(code|Code|codium)"
+    default-column-width { proportion 0.67; }
+}
+
+// #TILED: File managers
+window-rule {
+    match app-id="(thunar|nautilus|nemo|dolphin)"
+    default-column-width { proportion 0.5; }
+}
+
+// ===================================================================
+// PHOTOGRAPHY APPLICATIONS
+// ===================================================================
+
+// #PHOTOGRAPHY: GIMP
+window-rule {
+    match app-id="gimp"
+    default-column-width { proportion 0.8; }
+    open-on-workspace 2
+}
+
+// #PHOTOGRAPHY: Darktable
+window-rule {
+    match app-id="darktable"
+    default-column-width { proportion 0.8; }
+    open-on-workspace 2
+}
+
+// #PHOTOGRAPHY: RawTherapee
+window-rule {
+    match app-id="rawtherapee"
+    default-column-width { proportion 0.8; }
+    open-on-workspace 2
+}
+
+// #PHOTOGRAPHY: Krita
+window-rule {
+    match app-id="krita"
+    default-column-width { proportion 0.75; }
+    open-on-workspace 2
+}
+
+// #PHOTOGRAPHY: Inkscape
+window-rule {
+    match app-id="inkscape"
+    default-column-width { proportion 0.75; }
+    open-on-workspace 2
+}
+
+// #PHOTOGRAPHY: Blender
+window-rule {
+    match app-id="blender"
+    default-column-width { proportion 0.8; }
+    open-on-workspace 2
+}
+
+// ===================================================================
+// GAMING APPLICATIONS
+// ===================================================================
+
+// #GAMING: Steam
+window-rule {
+    match app-id="steam"
+    default-column-width { proportion 0.6; }
+    open-on-workspace 3
+}
+
+// #GAMING: Steam game windows
+window-rule {
+    match title="^Steam$"
+    default-column-width { proportion 0.6; }
+    open-on-workspace 3
+}
+
+// #GAMING: Lutris
+window-rule {
+    match app-id="lutris"
+    default-column-width { proportion 0.6; }
+    open-on-workspace 3
+}
+
+// #GAMING: Heroic Games Launcher
+window-rule {
+    match app-id="heroic"
+    default-column-width { proportion 0.6; }
+    open-on-workspace 3
+}
+
+// #GAMING: CoreCtrl (AMD GPU control)
+window-rule {
+    match app-id="corectrl"
+    open-floating true
+    default-column-width { fixed 800; }
+}
+
+// #GAMING: MangoHud configurator
+window-rule {
+    match app-id="mangohud"
+    open-floating true
+}
+
+// #GAMING: Game windows (fullscreen by default)
+window-rule {
+    match is-active-in-column=true
+    match app-id="(gamescope|steam_app_.*)"
+    open-maximized true
+}
+
+// ===================================================================
+// COMMUNICATION APPLICATIONS
+// ===================================================================
+
+// #COMM: Discord
+window-rule {
+    match app-id="(discord|webcord|vesktop)"
+    default-column-width { proportion 0.5; }
+    open-on-workspace 4
+}
+
+// #COMM: Telegram
+window-rule {
+    match app-id="(telegram|telegram-desktop)"
+    default-column-width { proportion 0.4; }
+    open-on-workspace 4
+}
+
+// #COMM: Signal
+window-rule {
+    match app-id="signal"
+    default-column-width { proportion 0.4; }
+    open-on-workspace 4
+}
+
+// #COMM: Email clients
+window-rule {
+    match app-id="(thunderbird|evolution|geary)"
+    default-column-width { proportion 0.6; }
+    open-on-workspace 4
+}
+
+// ===================================================================
+// MEDIA APPLICATIONS
+// ===================================================================
+
+// #MEDIA: Spotify
+window-rule {
+    match app-id="(spotify|Spotify)"
+    default-column-width { proportion 0.5; }
+    open-on-workspace 5
+}
+
+// #MEDIA: Music players
+window-rule {
+    match app-id="(cmus|ncmpcpp|audacious)"
+    default-column-width { proportion 0.4; }
+    open-on-workspace 5
+}
+
+// #MEDIA: Video editors
+window-rule {
+    match app-id="(kdenlive|openshot|shotcut)"
+    default-column-width { proportion 0.75; }
+    open-on-workspace 5
+}
+
+// #MEDIA: OBS Studio
+window-rule {
+    match app-id="com.obsproject.Studio"
+    default-column-width { proportion 0.7; }
+    open-on-workspace 5
+}
+
+// ===================================================================
+// WEBAPPS
+// ===================================================================
+
+// #WEBAPP: YouTube
+window-rule {
+    match title="YouTube"
+    match app-id="webapp-youtube"
+    default-column-width { proportion 0.6; }
+    open-on-workspace 6
+}
+
+// #WEBAPP: Twitch
+window-rule {
+    match title="Twitch"
+    match app-id="webapp-twitch"
+    default-column-width { proportion 0.6; }
+    open-on-workspace 6
+}
+
+// #WEBAPP: Generic webapps
+window-rule {
+    match app-id="^webapp-"
+    default-column-width { proportion 0.5; }
+}
+
+// ===================================================================
+// SYSTEM TOOLS
+// ===================================================================
+
+// #SYSTEM: Settings/Control panels
+window-rule {
+    match app-id="(nwg-look|kvantummanager|qt5ct|qt6ct)"
+    open-floating true
+    default-column-width { fixed 900; }
+}
+
+// #SYSTEM: Polkit agents
+window-rule {
+    match app-id="(polkit-gnome|polkit-kde)"
+    open-floating true
+}
+
+// #SYSTEM: Notification center
+window-rule {
+    match app-id="swaync"
+    open-floating true
+}
+
+// #SYSTEM: Password managers
+window-rule {
+    match app-id="(keepassxc|bitwarden|1password)"
+    open-floating true
+    default-column-width { fixed 1000; }
+}
+
+// ===================================================================
+// QUICKSHELL / NOCTALIA
+// ===================================================================
+
+// #NOCTALIA: Main shell windows
+window-rule {
+    match namespace="^quickshell"
+    block-out-from "screen-capture"
+}
+
+// #NOCTALIA: Launcher
+window-rule {
+    match namespace="^quickshell-launcher$"
+    open-floating true
+}
+
+// #NOCTALIA: Overview
+window-rule {
+    match namespace="^quickshell-overview$"
+    open-floating true
+}
+
+// #NOCTALIA: Settings
+window-rule {
+    match namespace="^quickshell-settings$"
+    open-floating true
+    default-column-width { fixed 1200; }
+}
+
+// ===================================================================
+// FOCUS STEALING PREVENTION
+// ===================================================================
+
+// Prevent focus stealing from background apps
+window-rule {
+    match is-focused=false
+    focus-on-activation false
+}
+
+// ===================================================================
+// OPACITY & BLUR
+// ===================================================================
+
+// Transparent terminals (if supported)
+window-rule {
+    match app-id="^(ghostty|kitty|alacritty)$"
+    opacity 0.95
+}
+
+// ===================================================================
+// NO DECORATIONS
+// ===================================================================
+
+// Remove decorations from specific apps
+window-rule {
+    match app-id="(steam|lutris)"
+    draw-border-with-background false
+}

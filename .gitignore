@@ -1,14 +1,65 @@
-*.tar
-*.tar.*
-*.jar
-*.exe
-*.msi
-*.deb
-*.zip
-*.tgz
-*.log
-*.log.*
-*.sig
+# WehttamSnaps .gitignore
 
-pkg/
-src/
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Cache and temporary files
+.cache/
+tmp/
+temp/
+
+# User-specific files
+*.local
+user-configs/
+backups/
+
+# Large binaries
+*.iso
+*.img
+*.dmg
+
+# Build artifacts
+build/
+dist/
+target/
+
+# Node modules (if any)
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Package files
+*.pkg
+*.deb
+*.rpm
+
+# Backup files
+*.bak
+*.backup
+
+# Personal configurations
+.personal/
+.private/
+
+# Generated files
+VERSION.bak
+
+# Test files
+test/
+tests/
