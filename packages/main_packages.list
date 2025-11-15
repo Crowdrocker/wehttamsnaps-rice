@@ -21,6 +21,7 @@ btop
 cava
 chaotic-keyring
 chaotic-mirrorlist
+chezmoi
 cliphist
 cmake
 colloid-gtk-theme-git
@@ -38,6 +39,7 @@ dms-shell-bin
 dms-shell-bin-debug
 docker
 docker-compose
+dsearch-bin
 earlyoom
 easyeffects
 efibootmgr
@@ -120,6 +122,8 @@ lib32-vulkan-radeon
 libreoffice-fresh
 libspng
 linutil
+linux-cachyos-lts
+linux-cachyos-lts-headers
 linux-firmware
 linux-lts
 loupe
@@ -139,7 +143,7 @@ neovim
 network-manager-applet
 networkmanager
 niri
-noctalia-shell
+noctalia-shell-git
 nomacs
 noto-fonts
 noto-fonts-emoji
@@ -234,9 +238,10 @@ v4l2loopback-dkms
 viewnior
 vulkan-radeon
 wallust-git
+wev
 wf-recorder
 wget
-wine-staging
+wine
 wireless-regdb
 wireplumber
 wl-clip-persist
