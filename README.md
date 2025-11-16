@@ -151,7 +151,7 @@ wehttamsnaps-dotfiles/
 
 ```bash
 # Clone the repository
-git clone https://github.com/Crowdrocker/wehttamsnaps-dotfiles.git
+git clone https://github.com/Crowdrocker/wehttamsnaps-rice.git
 cd wehttamsnaps-dotfiles
 
 # Run the interactive installer
